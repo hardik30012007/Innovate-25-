@@ -1,3 +1,4 @@
+// ===============================
 // 1. Map Initialization
 // ===============================
 const map = L.map("map", {
@@ -18,10 +19,10 @@ window.map = map;
 
 // ---- Panes (layer priority control) ----
 map.createPane("greenZonesPane");
-map.getPane("greenZonesPane").style.zIndex = 600; // Anchors on top
+map.getPane("greenZonesPane").style.zIndex = 600;
 
 map.createPane("corridorsPane");
-map.getPane("corridorsPane").style.zIndex = 550; // Corridors below
+map.getPane("corridorsPane").style.zIndex = 550;
 
 map.createPane("userPane");
 map.getPane("userPane").style.zIndex = 750;
@@ -41,141 +42,117 @@ map.getPane("tilePane").style.filter = "brightness(0.96) contrast(0.95)";
 window.overlayLayers = {};
 
 // ===============================
-// 2. Existing Green Zones (Anchors)
+// 2 & 3. Data Integration (Anchors & Corridors)
 // ===============================
-fetch("http://127.0.0.1:5001/green-zones")
-  .then(res => res.json())
-  .then(data => {
-    if (!data?.features?.length) return;
+Promise.all([
+  fetch("http://127.0.0.1:5001/green-zones").then(res => res.json()),
+  fetch("http://127.0.0.1:5001/corridors").then(res => res.json())
+]).then(([anchorsData, corridorsData]) => {
+  if (!anchorsData?.features || !corridorsData?.features) return;
 
-    const greenLayer = L.geoJSON(data, {
-      pane: "greenZonesPane",
-      style: {
-        fillColor: "#2e7d32",    // Dark forest green
-        color: "#1b5e20",        // Very dark green border
-        weight: 1,
-        fillOpacity: 0.75
-      },
+  // --- Process Anchors (Base Parks - Visual Only) ---
+  const greenLayer = L.geoJSON(anchorsData, {
+    pane: "greenZonesPane",
+    style: {
+      fillColor: "#2e7d32",
+      color: "#1b5e20",
+      weight: 1,
+      fillOpacity: 0.75
+    }
+  }).addTo(map);
+  window.overlayLayers["Green Anchors"] = greenLayer;
+
+  // --- Process Corridors ---
+  const existingZoneIds = ['zone_13', 'zone_6', 'zone_4']; // User Zones 14, 7, 5
+  const suggestedFeatures = corridorsData.features.filter(f => !existingZoneIds.includes(f.properties.id));
+  const existingFeatures = corridorsData.features.filter(f => existingZoneIds.includes(f.properties.id));
+
+  // 1. Collect all points of Existing Green Zones
+  const implementedPoints = [];
+  if (existingFeatures.length > 0) {
+    const existingZonesLayer = L.geoJSON({ type: "FeatureCollection", features: existingFeatures }, {
+      pane: "corridorsPane",
+      style: { fillColor: "#00c853", fillOpacity: 0.8, color: "#1b5e20", weight: 3 },
       onEachFeature: (feature, layer) => {
-        // No tooltip for green anchors - user doesn't want anchor details
-        layer.on({
-          mouseover: e =>
-            e.target.setStyle({ weight: 2, fillOpacity: 0.95 }),
-          mouseout: e => greenLayer.resetStyle(e.target)
+        const zoneNum = parseInt(feature.properties.id.split('_')[1]) + 1;
+
+        // Extract all points for edge-to-edge distance calculation
+        const coords = feature.geometry.coordinates[0];
+        coords.forEach(c => {
+          implementedPoints.push(L.latLng(c[1], c[0]));
         });
+
+        layer.bindTooltip(`<b>Zone ${zoneNum}</b> <span style="color:#4caf50">●</span><br>Status: Implemented`, { sticky: true });
+      }
+    }).addTo(map);
+    window.overlayLayers["Existing Green Zones"] = existingZonesLayer;
+  }
+
+  // 2. AI Suggestions with Correct Perimeter Distance
+  if (suggestedFeatures.length > 0) {
+    const corridorLayer = L.geoJSON({ type: "FeatureCollection", features: suggestedFeatures }, {
+      pane: "corridorsPane",
+      style: { fillColor: "#ffea00", fillOpacity: 0.5, color: "#ff9100", weight: 2, dashArray: "10, 10" },
+      onEachFeature: (feature, layer) => {
+        const p = feature.properties;
+        const zoneNum = parseInt(p.id.split('_')[1]) + 1;
+
+        let minDistance = Infinity;
+        const suggestedCoords = feature.geometry.coordinates[0];
+
+        // Calculate the shortest distance between any vertex of the suggestion and any vertex of implemented zones
+        // This simulates edge-to-edge proximity more accurately than center-to-center
+        suggestedCoords.forEach(c_sug => {
+          const sugPt = L.latLng(c_sug[1], c_sug[0]);
+          implementedPoints.forEach(implPt => {
+            const dist = sugPt.distanceTo(implPt);
+            if (dist < minDistance) minDistance = dist;
+          });
+        });
+
+        // Apply Penalty Logic (Distances < 500, 1000, 2000)
+        let penalty = 0;
+        if (minDistance < 500) penalty = 25;
+        else if (minDistance < 1000) penalty = 15;
+        else if (minDistance < 2000) penalty = 5;
+
+        p.adjustedScore = Math.max(0, p.score - penalty);
+        p.proximityPenalty = penalty;
+        p.minDistance = minDistance;
+
+        const distStr = minDistance === Infinity ? "N/A" : `${(minDistance / 1000).toFixed(2)} km`;
+
+        layer.bindTooltip(
+          `<b>Zone ${zoneNum}</b><br>
+           AI Base Score: ${p.score}<br>
+           Edge-to-Edge Dist: ${distStr}<br>
+           Proximity Penalty: -${p.proximityPenalty}<br>
+           <b>Final Priority: ${p.adjustedScore}</b>`,
+          { sticky: true }
+        );
       }
     }).addTo(map);
 
-    window.overlayLayers["Green Anchors"] = greenLayer;
+    window.overlayLayers["AI Suggested Corridors"] = corridorLayer;
 
-    const bounds = greenLayer.getBounds();
-    if (bounds.isValid()) map.fitBounds(bounds, { padding: [20, 20] });
-  });
+    // Calculate Adjusted Priority Zone
+    let highestAdjustedScore = -1;
+    let priorityLayer = null;
 
-// ===============================
-// 3. AI Suggested Corridors
-// ===============================
-fetch("http://127.0.0.1:5001/corridors")
-  .then(res => res.json())
-  .then(data => {
-    if (!data?.features?.length) return;
+    corridorLayer.getLayers().forEach(layer => {
+      if (layer.feature.properties.adjustedScore > highestAdjustedScore) {
+        highestAdjustedScore = layer.feature.properties.adjustedScore;
+        priorityLayer = layer;
+      }
+    });
 
-    // Hardcoded existing green zones (already implemented)
-    // User refers to zones as 1-indexed (Zone 14, 7, 5)
-    // But IDs are 0-indexed (zone_13, zone_6, zone_4)
-    const existingZoneIds = ['zone_13', 'zone_6', 'zone_4'];
-
-    // Style for existing green zones (bright green, solid, thick border)
-    const existingZoneStyle = {
-      fillColor: "#00c853",    // Bright green (same as old Green Anchors)
-      fillOpacity: 0.8,
-      color: "#1b5e20",        // Dark green border
-      weight: 3
-    };
-
-    // Style for AI suggested corridors (yellow, dashed)
-    const corridorStyle = (feature) => {
-      return {
-        fillColor: "#ffea00",   // Bright Yellow
-        fillOpacity: 0.5,
-        color: "#ff9100",       // Orange-Yellow border
-        weight: 2,
-        dashArray: "10, 10"     // Dashed border = Proposal
+    if (priorityLayer) {
+      const p = priorityLayer.feature.properties;
+      window.priorityZone = {
+        name: `Zone ${parseInt(p.id.split('_')[1]) + 1} (Score: ${p.adjustedScore})`,
+        bounds: priorityLayer.getBounds()
       };
-    };
-
-    // Separate features into existing and suggested
-    const existingFeatures = data.features.filter(f =>
-      existingZoneIds.includes(f.properties.id)
-    );
-    const suggestedFeatures = data.features.filter(f =>
-      !existingZoneIds.includes(f.properties.id)
-    );
-
-    // Create Existing Green Zones layer
-    if (existingFeatures.length > 0) {
-      const existingZonesLayer = L.geoJSON({
-        type: "FeatureCollection",
-        features: existingFeatures
-      }, {
-        pane: "corridorsPane",
-        style: existingZoneStyle,
-        onEachFeature: (feature, layer) => {
-          const p = feature.properties;
-          const zoneNum = parseInt(p.id.split('_')[1]) + 1;
-
-          // Check if connects to priority location (has landmarks)
-          const hasPriorityLocation = p.nearby_landmarks && p.nearby_landmarks.length > 0;
-          const priorityStatus = hasPriorityLocation ? "Yes" : "No";
-
-          layer.bindTooltip(
-            `<b>Zone ${zoneNum}</b> <span style="color:#4caf50">●</span><br>
-             Area: ${p.area_sqkm} sq km<br>
-             Connects: ${p.connected_anchors} parks<br>
-             Priority Location: ${priorityStatus}<br>
-             Score: ${p.score}<br>
-             <small><i>Status: Implemented</i></small>`,
-            { sticky: true }
-          );
-        }
-      }).addTo(map);
-
-      window.overlayLayers["Existing Green Zones"] = existingZonesLayer;
+      window.dispatchEvent(new CustomEvent('priorityReady'));
     }
-
-    // Create AI Suggested Corridors layer
-    if (suggestedFeatures.length > 0) {
-      const corridorLayer = L.geoJSON({
-        type: "FeatureCollection",
-        features: suggestedFeatures
-      }, {
-        pane: "corridorsPane",
-        style: corridorStyle,
-        onEachFeature: (feature, layer) => {
-          console.log("Adding corridor feature:", feature.properties.id);
-          const p = feature.properties;
-          const zoneNum = parseInt(p.id.split('_')[1]) + 1;
-
-          // Check if connects to priority location (has landmarks)
-          const hasPriorityLocation = p.nearby_landmarks && p.nearby_landmarks.length > 0;
-          const priorityStatus = hasPriorityLocation ? "Yes" : "No";
-
-          layer.bindTooltip(
-            `<b>Zone ${zoneNum}</b><br>
-             Area: ${p.area_sqkm} sq km<br>
-             Connects: ${p.connected_anchors} parks<br>
-             Priority Location: ${priorityStatus}<br>
-             Score: ${p.score}`,
-            { sticky: true }
-          );
-        }
-      }).addTo(map);
-
-      window.overlayLayers["AI Suggested Corridors"] = corridorLayer;
-    }
-  });
-
-// ===============================
-// 4. Map Polish & UX
-// ===============================
-// (Removed User Suggestion Mode as per requirements)
+  }
+});

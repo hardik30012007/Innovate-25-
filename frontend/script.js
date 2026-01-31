@@ -41,4 +41,29 @@ document.addEventListener('DOMContentLoaded', () => {
   setupToggle(checkGreen, "Existing Green Zones");
   setupToggle(checkAI, "AI Suggested Corridors");
   setupToggle(checkAnchors, "Green Anchors");
+
+  // 3. Priority Alert Logic
+  window.addEventListener('priorityReady', () => {
+    const alert = document.getElementById('priority-alert');
+    const text = document.getElementById('priority-text');
+    const viewBtn = document.getElementById('btn-view-priority');
+
+    if (alert && window.priorityZone) {
+      text.innerText = `Priority AI Suggestion: ${window.priorityZone.name}`;
+      alert.style.display = 'block';
+
+      viewBtn.onclick = () => {
+        window.map.flyToBounds(window.priorityZone.bounds, {
+          padding: [50, 50],
+          duration: 1.5
+        });
+
+        // Ensure AI layer is visible
+        const checkAI = document.getElementById('check-ai');
+        if (checkAI && !checkAI.checked) {
+          checkAI.click();
+        }
+      };
+    }
+  });
 });

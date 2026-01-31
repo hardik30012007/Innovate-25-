@@ -184,6 +184,63 @@ body.boxed-layout {
   flex-shrink: 0;
 }
 
+/* Priority AI Alert */
+.map-overlay-alert {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1001;
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 100px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: slideInRight 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.alert-content i {
+  color: #ffea00;
+  font-size: 1.1rem;
+}
+
+.btn-mini-action {
+  background: white;
+  color: #1b5e20;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-mini-action:hover {
+  transform: scale(1.05);
+  background: #ffea00;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 /* Fullscreen Button - Bottom Left */
 .map-control-btn {
   position: absolute;
