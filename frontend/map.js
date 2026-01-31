@@ -106,11 +106,19 @@ fetch("http://127.0.0.1:5001/corridors")
       onEachFeature: (feature, layer) => {
         console.log("Adding corridor feature:", feature.properties.id);
         const p = feature.properties;
+        // Extract zone number from ID (e.g., "zone_0" -> "Zone 1")
+        const zoneNum = parseInt(p.id.split('_')[1]) + 1;
+
+        // Build landmarks info if any exist
+        const landmarksInfo = p.nearby_landmarks && p.nearby_landmarks.length > 0
+          ? `<br>Near: ${p.nearby_landmarks.join(", ")}`
+          : '';
+
         layer.bindTooltip(
-          `<b>AI Green Corridor</b><br>
-           Distance: ${p.distance_m} m<br>
-           Score: ${p.score}<br>
-           Serves: ${p.served_locations?.join(", ") || "General Area"}`,
+          `<b>Zone ${zoneNum}</b><br>
+           Area: ${p.area_sqkm} sq km<br>
+           Connects: ${p.connected_anchors} parks<br>
+           Score: ${p.score}${landmarksInfo}`,
           { sticky: true }
         );
       }

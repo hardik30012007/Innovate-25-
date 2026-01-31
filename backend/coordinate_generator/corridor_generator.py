@@ -109,23 +109,26 @@ def generate_corridors(green_anchors_gdf):
     if not valid_parts:
         print("[INFO] No generated zones met the minimum area requirement")
         return gpd.GeoDataFrame()
-        
-    final_geom = unary_union(valid_parts)
-
-    # Return as a single feature
-    corridors_gdf = gpd.GeoDataFrame(
-        [{
+    
+    # Return each zone as a separate feature for individual scoring
+    corridor_features = []
+    for i, geom in enumerate(valid_parts):
+        corridor_features.append({
             "from_anchor": "various",
             "to_anchor": "various",
             "distance_m": 0,
-            "geometry": final_geom
-        }],
+            "zone_id": i,
+            "geometry": geom
+        })
+    
+    corridors_gdf = gpd.GeoDataFrame(
+        corridor_features,
         crs="EPSG:3857"
     )
 
     # Convert back to lat/lon for frontend
     corridors_gdf = corridors_gdf.to_crs(epsg=4326)
 
-    print(f"[INFO] Generated Unified Green Belt")
+    print(f"[INFO] Generated {len(valid_parts)} Individual Green Zones")
 
     return corridors_gdf
