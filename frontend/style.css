@@ -1,8 +1,325 @@
-#map {
-  height: 600px;
-  width: 100%;
+/* ========================================
+   MERGED STYLES - Delhi Green Zones Map
+   ======================================== */
+
+/* CSS Variables */
+:root {
+  --primary-forest: #1b5e20;
+  --primary-leaf: #43a047;
+  --accent-neon: #00e676;
+  --glass-surface: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --text-main: #1a202c;
+  --text-muted: #4a5568;
+  --shadow-float: 0 10px 30px -5px rgba(27, 94, 32, 0.15);
+  --shadow-hover: 0 20px 40px -5px rgba(27, 94, 32, 0.25);
 }
 
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  background-color: #f7fafc;
+}
+
+/* ========================================
+   MAP CONTAINER (Full Screen)
+   ======================================== */
+#map {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+/* ========================================
+   HEADER - Floating Bio-Pill
+   ======================================== */
+.app-header {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: var(--glass-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  padding: 12px 40px;
+  border-radius: 100px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-float);
+
+  text-align: center;
+  z-index: 1000;
+  min-width: 480px;
+
+  animation: floatDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes floatDown {
+  from {
+    transform: translate(-50%, -100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.app-header h1 {
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, var(--primary-forest), var(--primary-leaf));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+}
+
+.app-header p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ========================================
+   SIDEBAR - Eco-Card Glass
+   ======================================== */
+.floating-sidebar {
+  position: absolute;
+  top: 130px;
+  left: 40px;
+  width: 340px;
+
+  background: var(--glass-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-radius: 24px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-float);
+
+  z-index: 1000;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
+  animation: slideInLeft 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Section Titles */
+.control-group h3,
+.stats-group h3 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-group h3::after,
+.stats-group h3::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, #cbd5e0, transparent);
+}
+
+/* ========================================
+   INTERACTIVE LAYERS
+   ======================================== */
+.layer-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.layer-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-color: var(--primary-leaf);
+}
+
+.layer-option input[type="checkbox"] {
+  accent-color: var(--primary-leaf);
+  width: 20px;
+  height: 20px;
+}
+
+/* ========================================
+   LIVE STATS
+   ======================================== */
+#stats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s ease;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: linear-gradient(180deg, var(--primary-leaf), var(--accent-neon));
+}
+
+.stat-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-forest);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* ========================================
+   CALL TO ACTION BUTTON
+   ======================================== */
+.btn-action {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 16px;
+
+  background: linear-gradient(135deg, var(--primary-forest) 0%, var(--primary-leaf) 100%);
+  color: white;
+
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+
+  box-shadow: 0 10px 20px -5px rgba(27, 94, 32, 0.4);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-action::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+}
+
+.btn-action:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px -5px rgba(27, 94, 32, 0.5);
+  background: linear-gradient(135deg, #144a19 0%, #388e3c 100%);
+}
+
+.btn-action:hover::after {
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ========================================
+   MAP POPUPS (Leaflet Customization)
+   ======================================== */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: var(--shadow-hover);
+  font-family: 'Inter', sans-serif;
+}
+
+.leaflet-popup-content {
+  margin: 16px;
+}
+
+.popup-btn-vote {
+  margin-top: 12px;
+  background: var(--primary-leaf);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.popup-btn-vote:hover {
+  background: var(--primary-forest);
+}
+
+/* ========================================
+   LEGACY STYLES (from original style.css)
+   ======================================== */
 .green-zone-label {
   background: linear-gradient(145deg, #ffffff, #e6e6e6);
   border: none;

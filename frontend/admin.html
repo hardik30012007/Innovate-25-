@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Green Corridor Dashboard</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="admin.css">
+
+    <!-- Auth Check (Must be first script) -->
+    <script src="auth-check.js"></script>
+    <script src="theme.js"></script>
+</head>
+
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-building-columns"></i>
+            <span>DDA Planning</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="landing.html" class="nav-item">
+                <i class="fa-solid fa-home"></i> Home
+            </a>
+            <a href="#" class="nav-item active">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </a>
+            <a href="index.html" class="nav-item">
+                <i class="fa-solid fa-map-location-dot"></i> Map View
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-users"></i> Feedback
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-gear"></i> Settings
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar">AD</div>
+                <div class="user-info">
+                    <span class="name">Admin User</span>
+                    <span class="role">Senior Planner</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+
+        <!-- Header -->
+        <header class="admin-header">
+            <div>
+                <h1>Government Green Corridor Dashboard</h1>
+                <p class="subtitle">Review, prioritize, and approve AI-suggested green corridors for Delhi 2041 Master
+                    Plan.</p>
+                <p class="explainer-text">
+                    <i class="fa-solid fa-circle-info"></i>
+                    Corridors are ranked using AI-based impact analysis and citizen voting.
+                    Government authorities can approve high-priority corridors for implementation.
+                </p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary"><i class="fa-solid fa-download"></i> Export Report</button>
+            </div>
+        </header>
+
+        <!-- KPI Summary Cards -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon budget">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="kpi-content">
+                    <h3>AI Suggested</h3>
+                    <div class="kpi-value" id="kpi-total">--</div>
+                    <span class="kpi-trend">Total Corridors Identified</span>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon engagement">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="kpi-content">
+                    <h3>Community Supported</h3>
+                    <div class="kpi-value" id="kpi-supported">--</div>
+                    <span class="kpi-trend">> 10k Upvotes</span>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon engagement" style="background-color: #ecfdf5; color: #10b981;">
+                    <i class="fa-solid fa-check-circle"></i>
+                </div>
+                <div class="kpi-content">
+                    <h3>Approved</h3>
+                    <div class="kpi-value" id="kpi-approved">--</div>
+                    <span class="kpi-trend">Ready for Tender</span>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon pending">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <div class="kpi-content">
+                    <h3>Pending Review</h3>
+                    <div class="kpi-value" id="kpi-pending">--</div>
+                    <span class="kpi-trend">Action Required</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters & Actions -->
+        <section class="action-bar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-input" placeholder="Search corridors ID, Zone...">
+            </div>
+
+            <div class="filter-group">
+                <select id="filter-zone">
+                    <option value="all">All Zones</option>
+                    <option value="dwarka">Dwarka</option>
+                    <option value="south-delhi">South Delhi</option>
+                    <option value="east-delhi">East Delhi</option>
+                </select>
+
+                <select id="filter-priority">
+                    <option value="all">All Priorities</option>
+                    <option value="High">High Priority</option>
+                    <option value="Medium">Medium Priority</option>
+                    <option value="Low">Low Priority</option>
+                </select>
+
+                <select id="filter-status">
+                    <option value="all">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="work-in-progress">Work in Progress</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+
+                <select id="sort-by">
+                    <option value="votes">Sort by: Most Votes</option>
+                    <option value="score">Sort by: Highest AI Score</option>
+                </select>
+
+                <button class="btn-primary" id="refresh-btn">
+                    <i class="fa-solid fa-rotate-right"></i> Refresh
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Data Grid -->
+        <section class="data-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Area</th>
+                        <th>Length</th>
+                        <th>AI Score</th>
+                        <th>Upvotes</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="corridor-table-body">
+                    <!-- Javascript will populate rows here -->
+                    <tr class="placeholder-row">
+                        <td colspan="8" style="text-align: center; padding: 40px; color: #666;">
+                            Loading corridor data...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="modal-title">Corridor Details</h2>
+                <button class="btn-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-row">
+                    <span class="detail-label">Corridor ID:</span>
+                    <span id="modal-id" class="detail-value">--</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Area:</span>
+                    <span id="modal-area" class="detail-value">--</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Length:</span>
+                    <span id="modal-length" class="detail-value">--</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">AI Impact Score:</span>
+                    <span id="modal-score" class="detail-value text-success">--</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Community Support:</span>
+                    <span id="modal-votes" class="detail-value">--</span>
+                </div>
+                <div class="detail-info-box">
+                    <strong>AI Reasoning:</strong>
+                    <p id="modal-reason">--</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Admin JS -->
+    <script src="admin.js"></script>
+</body>
+
+</html>

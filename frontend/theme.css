@@ -1,0 +1,124 @@
+/*---------------------------
+  GLOBAL THEME STYLES
+----------------------------*/
+
+/* Light Theme (Default) */
+:root[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7fafc;
+    --bg-tertiary: #edf2f7;
+
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+
+    --border-color: #e2e8f0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+
+    --primary-green: #2e7d32;
+    --accent-green: #43a047;
+    --green-light: #81c784;
+
+    --overlay-bg: rgba(255, 255, 255, 0.85);
+    --overlay-border: rgba(255, 255, 255, 0.6);
+
+    --admin-sidebar-bg: #1E2A23;
+    --admin-header-bg: #2E8B57;
+}
+
+/* Dark Theme */
+:root[data-theme="dark"] {
+    --bg-primary: #1a202c;
+    --bg-secondary: #2d3748;
+    --bg-tertiary: #4a5568;
+
+    --text-primary: #f7fafc;
+    --text-secondary: #e2e8f0;
+    --text-muted: #cbd5e0;
+
+    --border-color: #4a5568;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+
+    --primary-green: #66bb6a;
+    --accent-green: #81c784;
+    --green-light: #a5d6a7;
+
+    --overlay-bg: rgba(26, 32, 44, 0.85);
+    --overlay-border: rgba(255, 255, 255, 0.1);
+
+    --admin-sidebar-bg: #0d1410;
+    --admin-header-bg: #1b5e20;
+}
+
+/*---------------------------
+  THEME TOGGLE BUTTON
+----------------------------*/
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
+    background: var(--overlay-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 2px solid var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    color: var(--text-primary);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 6px 20px var(--shadow-color);
+    border-color: var(--accent-green);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+.theme-toggle i {
+    font-size: 1.3rem;
+    color: var(--primary-green);
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover i {
+    transform: rotate(-15deg);
+}
+
+/* Animation when theme changes */
+@media (prefers-reduced-motion: no-preference) {
+    :root {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+}
+
+/*---------------------------
+  RESPONSIVE
+----------------------------*/
+@media (max-width: 768px) {
+    .theme-toggle {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .theme-toggle i {
+        font-size: 1.1rem;
+    }
+}

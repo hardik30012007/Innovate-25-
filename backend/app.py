@@ -34,11 +34,34 @@ def index():
 # -----------------------------
 @app.route("/green-zones")
 def get_green_zones():
-    global GREEN_ANCHORS_GDF
+    global GREEN_ANCHORS_GDF, CORRIDORS_GEOJSON
+    import geopandas as gpd
+    from shapely.geometry import shape
 
     if GREEN_ANCHORS_GDF is None:
         GREEN_ANCHORS_GDF = generate_green_anchors()
-
+    
+    # If corridors have been generated, exclude anchors that overlap with "Existing Green Zones"
+    if CORRIDORS_GEOJSON is not None:
+        # IDs of zones that are now "Existing Green Zones" (user zones 14, 7, 5)
+        existing_zone_ids = ['zone_13', 'zone_6', 'zone_4']
+        
+        # Get geometries of existing green zones
+        existing_zones = [
+            shape(f['geometry']) 
+            for f in CORRIDORS_GEOJSON['features'] 
+            if f['properties']['id'] in existing_zone_ids
+        ]
+        
+        if existing_zones:
+            # Filter out anchors that intersect with existing zones
+            filtered_gdf = GREEN_ANCHORS_GDF.copy()
+            mask = filtered_gdf.geometry.apply(
+                lambda geom: not any(geom.intersects(zone) for zone in existing_zones)
+            )
+            filtered_gdf = filtered_gdf[mask]
+            return jsonify(json.loads(filtered_gdf.to_json()))
+    
     return jsonify(json.loads(GREEN_ANCHORS_GDF.to_json()))
 
 
@@ -124,10 +147,10 @@ def generate():
             for _, landmark in landmarks_gdf.iterrows():
                 distance_m = zone_centroid.distance(landmark.geometry)
                 if distance_m <= 500:
-                    landmark_score += 5
+                    landmark_score += 8  # Increased from 5 to 8
                     nearby_landmarks.append(landmark["name"])
             
-            landmark_score = min(landmark_score, 15)
+            landmark_score = min(landmark_score, 25)  # Increased cap from 15 to 25
             
             # UPVOTES (will be loaded from storage)
             upvotes = 0
@@ -135,32 +158,34 @@ def generate():
             # COMPUTE TOTAL SCORE
             score = 0
             
-            # Area importance (max 30)
+            # Area importance (max 40 pts)
             if area_sqm >= 200000:
-                score += 30
+                score += 40
             elif area_sqm >= 120000:
-                score += 20
+                score += 30
             elif area_sqm >= 80000:
+                score += 20
+            elif area_sqm >= 50000:
                 score += 10
             
-            # Connectivity importance (max 25)
+            # Connectivity importance (max 35 pts)
             if connected_anchors >= 10:
-                score += 25
+                score += 35
             elif connected_anchors >= 7:
-                score += 23
+                score += 30
             elif connected_anchors >= 5:
-                score += 20
+                score += 25
             elif connected_anchors == 4:
-                score += 16
+                score += 20
             elif connected_anchors == 3:
-                score += 12
+                score += 15
             elif connected_anchors == 2:
-                score += 8
+                score += 10
             
-            # Landmark proximity (max 15)
+            # Landmark proximity (max 25 pts)
             score += landmark_score
             
-            # Public support (max 20)
+            # Public support (max 20 pts)
             score += min(upvotes * 2, 20)
             
             # Clamp to 100
