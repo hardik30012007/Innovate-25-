@@ -2,3 +2,21 @@
   height: 600px;
   width: 100%;
 }
+
+.green-zone-label {
+  background: linear-gradient(145deg, #ffffff, #e6e6e6);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #2e7d32;
+  text-transform: uppercase;
+  font-weight: bold;
+  transform: perspective(500px) rotateX(10deg);
+}
+
+.green-zone-label::before {
+  border-top-color: #e6e6e6;
+}
