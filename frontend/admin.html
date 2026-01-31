@@ -15,12 +15,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Admin CSS -->
-    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="../theme.css">
     <link rel="stylesheet" href="admin.css">
 
     <!-- Auth Check (Must be first script) -->
-    <script src="auth-check.js"></script>
-    <script src="theme.js"></script>
+    <script src="../auth-check.js"></script>
+    <script src="../theme.js"></script>
 </head>
 
 <body>
@@ -33,7 +33,7 @@
         </div>
 
         <nav class="sidebar-nav">
-            <a href="landing.html" class="nav-item">
+            <a href="../landing.html" class="nav-item">
                 <i class="fa-solid fa-home"></i> Home
             </a>
             <a href="#" class="nav-item active">
@@ -159,8 +159,8 @@
                 </select>
 
                 <select id="sort-by">
+                    <option value="score">Sort by: Combined Priority</option>
                     <option value="votes">Sort by: Most Votes</option>
-                    <option value="score">Sort by: Highest AI Score</option>
                 </select>
 
                 <button class="btn-primary" id="refresh-btn">

@@ -12,7 +12,7 @@ const errorMessage = document.getElementById('error-message');
 
 // Check if already logged in
 if (sessionStorage.getItem('govAuth') === 'true') {
-    window.location.href = 'admin.html';
+    window.location.href = 'frontend/admin.html';
 }
 
 // Handle form submission
