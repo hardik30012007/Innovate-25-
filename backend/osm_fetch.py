@@ -1,26 +1,29 @@
 import requests
 
-OVERPASS_URL = "http://overpass-api.de/api/interpreter"
+OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+BBOX = "28.40,76.80,28.90,77.40"  # Delhi
 
-# Delhi bounding box (south, west, north, east)
-DELHI_BBOX = (28.40, 76.80, 28.90, 77.40)
-
-
-def fetch_green_osm_data():
-    bbox = f"{DELHI_BBOX[0]},{DELHI_BBOX[1]},{DELHI_BBOX[2]},{DELHI_BBOX[3]}"
-
+def fetch_osm_green():
     query = f"""
     [out:json][timeout:25];
     (
-      way["landuse"="forest"]({bbox});
-      way["natural"="wood"]({bbox});
-      relation["boundary"="protected_area"]({bbox});
+      way["leisure"="park"]({BBOX});
+      way["landuse"="forest"]({BBOX});
+      way["natural"="wood"]({BBOX});
+      relation["boundary"="protected_area"]({BBOX});
     );
     out body;
     >;
     out skel qt;
     """
-
     response = requests.post(OVERPASS_URL, data=query)
-    response.raise_for_status()
-    return response.json()
+    
+    if response.status_code != 200:
+        print(f"Overpass Error {response.status_code}: {response.text}")
+        return {"elements": []}
+    
+    try:
+        return response.json()
+    except Exception as e:
+        print("Overpass JSON Decode Error:", e)
+        return {"elements": []}
