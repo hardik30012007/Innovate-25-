@@ -20,3 +20,15 @@
 .green-zone-label::before {
   border-top-color: #e6e6e6;
 }
+
+/* AI Corridor Animation */
+@keyframes dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.ai-corridor-line {
+  animation: dash 1s linear infinite;
+  stroke-dasharray: 10, 10;
+}

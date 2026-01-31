@@ -1,0 +1,18 @@
+=== DIAGNOSTIC START ===
+Config: Anchor MinArea=150000, MaxDist=5000
+1. Valid Anchors: 126
+2. Connectivity Graph: 393 edges found between 126 anchors
+3. Clusters (Size >= 2): 6 clusters found
+   - Cluster 0: 99 anchors
+   - Cluster 1: 4 anchors
+   - Cluster 2: 2 anchors
+   - Cluster 3: 3 anchors
+   - Cluster 4: 7 anchors
+   - Cluster 5: 2 anchors
+   - Cluster 0 Area: 442,826,365 sqm
+   - Cluster 1 Area: 22,445,161 sqm
+   - Cluster 2 Area: 1,670,125 sqm
+   - Cluster 3 Area: 4,352,011 sqm
+   - Cluster 4 Area: 9,061,633 sqm
+   - Cluster 5 Area: 1,640,034 sqm
+4. Final Valid Polygons: 6
