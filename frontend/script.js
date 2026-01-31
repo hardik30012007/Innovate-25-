@@ -1,36 +1,44 @@
-// Initialize map centered on Delhi
-const map = L.map("map").setView([28.6139, 77.2090], 12);
+// script.js - Dashboard Stats & Utility Logic
 
-// OpenStreetMap tiles
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "© OpenStreetMap contributors"
-}).addTo(map);
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Fullscreen Toggle Logic
+  const fullscreenBtn = document.getElementById('fullscreen-toggle');
+  const mapWrapper = document.querySelector('.map-wrapper');
 
-// Example existing green zone
-L.circle([28.6129, 77.2295], {
-  color: "green",
-  fillColor: "#3cb371",
-  fillOpacity: 0.5,
-  radius: 300
-}).addTo(map).bindPopup("Existing Green Zone");
+  if (fullscreenBtn && mapWrapper) {
+    fullscreenBtn.addEventListener('click', () => {
+      mapWrapper.classList.toggle('fullscreen');
+      const icon = fullscreenBtn.querySelector('i');
 
-// Click event for suggesting new green zone
-map.on("click", function (e) {
-  const lat = e.latlng.lat;
-  const lng = e.latlng.lng;
+      if (mapWrapper.classList.contains('fullscreen')) {
+        icon.classList.replace('fa-expand', 'fa-compress');
+      } else {
+        icon.classList.replace('fa-compress', 'fa-expand');
+      }
 
-  const popupContent = `
-    <b>Suggest Green Zone</b><br/>
-    Lat: ${lat.toFixed(4)}<br/>
-    Lng: ${lng.toFixed(4)}<br/>
-    <button class="popup-btn" onclick="getAISuggestion(${lat}, ${lng})">
-      AI Suggest Reason
-    </button>
-    <div id="ai-response"></div>
-  `;
+      // Invalidate map size after transition to prevent gray areas
+      setTimeout(() => {
+        window.map.invalidateSize();
+      }, 400);
+    });
+  }
 
-  L.popup()
-    .setLatLng(e.latlng)
-    .setContent(popupContent)
-    .openOn(map);
+  // 2. Setup Layer Toggles
+  const checkGreen = document.getElementById('check-green');
+  const checkAI = document.getElementById('check-ai');
+  const checkAnchors = document.getElementById('check-anchors');
+
+  function setupToggle(el, layerName) {
+    if (!el) return;
+    el.addEventListener('change', (e) => {
+      if (window.overlayLayers && window.overlayLayers[layerName]) {
+        if (e.target.checked) window.map.addLayer(window.overlayLayers[layerName]);
+        else window.map.removeLayer(window.overlayLayers[layerName]);
+      }
+    });
+  }
+
+  setupToggle(checkGreen, "Existing Green Zones");
+  setupToggle(checkAI, "AI Suggested Corridors");
+  setupToggle(checkAnchors, "Green Anchors");
 });

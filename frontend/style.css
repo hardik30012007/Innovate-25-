@@ -1,262 +1,215 @@
 /* ========================================
-   MERGED STYLES - Delhi Green Zones Map
+   RESTORED & IMPROVED BOXED LAYOUT
    ======================================== */
 
-/* CSS Variables */
-:root {
-  --primary-forest: #1b5e20;
-  --primary-leaf: #43a047;
-  --accent-neon: #00e676;
-  --glass-surface: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --text-main: #1a202c;
-  --text-muted: #4a5568;
-  --shadow-float: 0 10px 30px -5px rgba(27, 94, 32, 0.15);
-  --shadow-hover: 0 20px 40px -5px rgba(27, 94, 32, 0.25);
-}
-
-/* Reset & Base Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  color: var(--text-main);
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  position: relative;
-  background-color: #f7fafc;
-}
-
-/* ========================================
-   MAP CONTAINER (Full Screen)
-   ======================================== */
-#map {
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-}
-
-/* ========================================
-   HEADER - Floating Bio-Pill
-   ======================================== */
-.app-header {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  background: var(--glass-surface);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  padding: 12px 40px;
-  border-radius: 100px;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-float);
-
-  text-align: center;
-  z-index: 1000;
-  min-width: 480px;
-
-  animation: floatDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-@keyframes floatDown {
-  from {
-    transform: translate(-50%, -100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translate(-50%, 0);
-    opacity: 1;
-  }
-}
-
-.app-header h1 {
-  font-size: 1.5rem;
-  background: linear-gradient(135deg, var(--primary-forest), var(--primary-leaf));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 2px;
-}
-
-.app-header p {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-/* ========================================
-   SIDEBAR - Eco-Card Glass
-   ======================================== */
-.floating-sidebar {
-  position: absolute;
-  top: 130px;
-  left: 40px;
-  width: 340px;
-
-  background: var(--glass-surface);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-
-  border-radius: 24px;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-float);
-
-  z-index: 1000;
-  padding: 30px;
+body.boxed-layout {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-
-  animation: slideInLeft 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  height: 100vh;
+  background-color: var(--bg-secondary);
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-50px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+/* Header Styling */
+.page-header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+  z-index: 1000;
+  box-shadow: 0 2px 10px var(--shadow-color);
 }
 
-/* Section Titles */
-.control-group h3,
-.stats-group h3 {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: var(--text-muted);
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-weight: 800;
-  margin-bottom: 16px;
-  letter-spacing: 0.1em;
+  font-size: 1.2rem;
+  color: var(--primary-forest);
+}
+
+.logo-area i {
+  font-size: 1.5rem;
+}
+
+.btn-home {
+  text-decoration: none;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.control-group h3::after,
-.stats-group h3::after {
-  content: '';
+.btn-home:hover {
+  background: var(--primary-leaf);
+  color: white;
+}
+
+/* Main content (whitespace around map) */
+.main-content {
   flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, #cbd5e0, transparent);
-}
-
-/* ========================================
-   INTERACTIVE LAYERS
-   ======================================== */
-.layer-option {
+  padding: 20px 20px;
+  /* Reduced vertical and horizontal padding */
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 16px;
-  padding: 12px 16px;
-  background: white;
-  border-radius: 12px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-.layer-option:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border-color: var(--primary-leaf);
-}
-
-.layer-option input[type="checkbox"] {
-  accent-color: var(--primary-leaf);
-  width: 20px;
-  height: 20px;
-}
-
-/* ========================================
-   LIVE STATS
-   ======================================== */
-#stats-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.stat-card {
-  background: white;
-  border-radius: 16px;
-  padding: 16px 20px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
   transition: all 0.3s ease;
 }
 
-.stat-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background: linear-gradient(180deg, var(--primary-leaf), var(--accent-neon));
-}
-
-.stat-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-}
-
-.stat-value {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--primary-forest);
-  line-height: 1.2;
-}
-
-.stat-label {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-/* ========================================
-   CALL TO ACTION BUTTON
-   ======================================== */
-.btn-action {
+.map-wrapper {
   width: 100%;
-  padding: 18px;
-  border: none;
-  border-radius: 16px;
-
-  background: linear-gradient(135deg, var(--primary-forest) 0%, var(--primary-leaf) 100%);
-  color: white;
-
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-
-  box-shadow: 0 10px 20px -5px rgba(27, 94, 32, 0.4);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  position: relative;
+  height: 100%;
+  max-width: 1350px;
+  /* Increased max-width to reduce margins */
+  border-radius: 20px;
   overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 50px -10px var(--shadow-color);
+  border: 1px solid var(--border-color);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fullscreen mode for map-wrapper */
+.map-wrapper.fullscreen {
+  max-width: 100% !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  border-radius: 0;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Map Overlay Components */
+
+/* Layer Controls - Top Left */
+.layer-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: var(--glass-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-float);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.control-item:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.control-item input {
+  accent-color: var(--primary-leaf);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.control-item label {
+  cursor: pointer;
+}
+
+/* Color Legend - Bottom Right */
+.color-legend {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: var(--glass-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-float);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legend-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.color-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Fullscreen Button - Bottom Left */
+.map-control-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--glass-surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--primary-forest);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-float);
+  transition: all 0.2s;
+}
+
+.map-control-btn:hover {
+  transform: scale(1.1);
+  background: var(--bg-primary);
+  color: var(--primary-leaf);
 }
 
 .btn-action::after {

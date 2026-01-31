@@ -2,19 +2,15 @@
   GLOBAL STYLES
 ----------------------------*/
 :root {
-    --primary-green: #2E8B57;
-    /* Eco-focused deep green */
-    --primary-accent: #4CAF50;
-    /* Bright highlight for positive actions */
-    --neutral-bg: #F5F7FA;
-    /* Soft neutral background */
-    --sidebar-bg: #1E2A23;
-    /* Urban deep-gray with slight green tint */
-    --text-main: #222;
-    --text-muted: #666;
-    --card-bg: #fff;
-    --border-color: #E0E4E8;
-    --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.1);
+    --primary-green: var(--primary-green, #2E8B57);
+    --primary-accent: var(--accent-green, #4CAF50);
+    --neutral-bg: var(--bg-secondary, #F5F7FA);
+    --sidebar-bg: var(--admin-sidebar-bg, #1E2A23);
+    --text-main: var(--text-primary, #222);
+    --text-muted: var(--text-secondary, #666);
+    --card-bg: var(--bg-primary, #fff);
+    --border-color: var(--border-color, #E0E4E8);
+    --shadow-soft: 0 2px 6px var(--shadow-color, rgba(0, 0, 0, 0.1));
     --transition-default: all 0.3s ease;
     --success-color: #27ae60;
     --pending-color: #f39c12;
@@ -150,7 +146,7 @@ body {
 
 .admin-header h1 {
     font-size: 1.6rem;
-    color: var(--primary-green);
+    color: var(--primary-accent);
 }
 
 .subtitle {

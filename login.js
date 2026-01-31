@@ -31,7 +31,7 @@ loginForm.addEventListener('submit', (e) => {
         errorMessage.classList.add('hidden');
 
         // Redirect to admin dashboard
-        window.location.href = 'admin.html';
+        window.location.href = 'frontend/admin.html';
     } else {
         // Authentication failed
         errorMessage.classList.remove('hidden');

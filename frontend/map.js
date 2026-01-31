@@ -1,4 +1,3 @@
-// ===============================
 // 1. Map Initialization
 // ===============================
 const map = L.map("map", {
@@ -9,8 +8,13 @@ const map = L.map("map", {
     [28.30, 76.80], // South-West
     [28.90, 77.70]  // North-East
   ],
-  maxBoundsViscosity: 1.0
+  maxBoundsViscosity: 1.0,
+  zoomControl: false,
+  attributionControl: false
 });
+
+// window map for external access
+window.map = map;
 
 // ---- Panes (layer priority control) ----
 map.createPane("greenZonesPane");
@@ -26,7 +30,6 @@ map.getPane("userPane").style.zIndex = 750;
 L.tileLayer(
   "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
   {
-    attribution: "&copy; OpenStreetMap &copy; CARTO",
     subdomains: "abcd",
     maxZoom: 19
   }
@@ -34,11 +37,8 @@ L.tileLayer(
 
 map.getPane("tilePane").style.filter = "brightness(0.96) contrast(0.95)";
 
-// ---- Shared Layer Control (IMPORTANT) ----
-const overlayLayers = {};
-const layerControl = L.control.layers(null, overlayLayers, {
-  collapsed: false
-}).addTo(map);
+// Shared layers for external control
+window.overlayLayers = {};
 
 // ===============================
 // 2. Existing Green Zones (Anchors)
@@ -66,8 +66,7 @@ fetch("http://127.0.0.1:5001/green-zones")
       }
     }).addTo(map);
 
-    overlayLayers["Green Anchors"] = greenLayer;
-    layerControl.addOverlay(greenLayer, "Green Anchors");
+    window.overlayLayers["Green Anchors"] = greenLayer;
 
     const bounds = greenLayer.getBounds();
     if (bounds.isValid()) map.fitBounds(bounds, { padding: [20, 20] });
@@ -141,8 +140,7 @@ fetch("http://127.0.0.1:5001/corridors")
         }
       }).addTo(map);
 
-      overlayLayers["Existing Green Zones"] = existingZonesLayer;
-      layerControl.addOverlay(existingZonesLayer, "Existing Green Zones");
+      window.overlayLayers["Existing Green Zones"] = existingZonesLayer;
     }
 
     // Create AI Suggested Corridors layer
@@ -173,69 +171,11 @@ fetch("http://127.0.0.1:5001/corridors")
         }
       }).addTo(map);
 
-      overlayLayers["AI Suggested Corridors"] = corridorLayer;
-      layerControl.addOverlay(corridorLayer, "AI Suggested Corridors");
+      window.overlayLayers["AI Suggested Corridors"] = corridorLayer;
     }
   });
 
 // ===============================
-// 4. User Suggestion Mode
+// 4. Map Polish & UX
 // ===============================
-let suggestionMode = false;
-let suggestionPoints = [];
-const suggestionLayer = L.layerGroup({ pane: "userPane" }).addTo(map);
-
-const suggestControl = L.control({ position: "topright" });
-suggestControl.onAdd = function () {
-  const div = L.DomUtil.create("div", "leaflet-bar leaflet-control");
-  div.innerHTML = "✍️";
-  div.title = "Suggest a Green Corridor";
-  div.style.cssText =
-    "background:white;width:34px;height:34px;line-height:34px;text-align:center;cursor:pointer;font-size:18px";
-
-  div.onclick = e => {
-    e.preventDefault();
-    suggestionMode = !suggestionMode;
-    div.style.background = suggestionMode ? "#4caf50" : "white";
-    div.style.color = suggestionMode ? "white" : "black";
-    map.getContainer().style.cursor = suggestionMode ? "crosshair" : "";
-
-    if (!suggestionMode) {
-      suggestionPoints = [];
-      suggestionLayer.clearLayers();
-    } else {
-      alert("Click TWO points to suggest a corridor");
-    }
-  };
-  return div;
-};
-suggestControl.addTo(map);
-
-map.on("click", e => {
-  if (!suggestionMode) return;
-
-  suggestionPoints.push(e.latlng);
-
-  L.circleMarker(e.latlng, {
-    pane: "userPane",
-    radius: 5,
-    color: "#9c27b0",
-    fillOpacity: 1
-  }).addTo(suggestionLayer);
-
-  if (suggestionPoints.length === 2) {
-    L.polyline(suggestionPoints, {
-      pane: "userPane",
-      color: "#9c27b0",
-      weight: 4,
-      dashArray: "6,8"
-    })
-      .addTo(suggestionLayer)
-      .bindPopup("<b>User Suggested Corridor</b><br>Status: Under Review")
-      .openPopup();
-
-    suggestionPoints = [];
-    suggestionMode = false;
-    map.getContainer().style.cursor = "";
-  }
-});
+// (Removed User Suggestion Mode as per requirements)
