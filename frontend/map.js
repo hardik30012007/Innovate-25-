@@ -265,11 +265,11 @@ Promise.all([
                     <span class="tooltip-text">
                         <span class="tooltip-title">AI Site Suitability Matrix</span>
                         <div style="margin-top:6px; line-height:1.6">
-                            <div><b style="color:#4caf50">Spatial Viability:</b> Max 40pts</div>
-                            <div><b style="color:#4caf50">Eco-Connectivity:</b> Max 35pts</div>
+                            <div><b style="color:#4caf50">Spatial Viability:</b> Max 30pts</div>
+                            <div><b style="color:#4caf50">Eco-Connectivity:</b> Max 30pts</div>
                             <div><b style="color:#4caf50">Urban Integration:</b> Max 25pts</div>
                             <div style="margin-top:4px; border-top:1px solid #555; padding-top:4px">
-                                <b style="color:#ffeb3b">Social Impact Bonus:</b> +20pts
+                                <b style="color:#ffeb3b">Social Impact Bonus:</b> +15pts
                             </div>
                         </div>
                     </span>
