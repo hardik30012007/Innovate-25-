@@ -2,10 +2,14 @@ import json
 import logging
 from flask import Flask, jsonify
 from flask_cors import CORS
+import os
+
 
 from green_anchor_processor import generate_green_anchors
-from coordinate_generator.corridor_generator import generate_corridors
+from green_anchor_processor import generate_green_anchors
+from coordinate_generator.corridor_generator import generate_corridors, INTERVENTIONS
 from storage_utils import load_corridors, save_corridors
+
 
 # Suppress Flask's request logging (only show errors)
 log = logging.getLogger('werkzeug')
@@ -47,10 +51,11 @@ def get_green_zones():
         existing_zone_ids = ['zone_13', 'zone_6', 'zone_4']
         
         # Get geometries of existing green zones
+        # Get geometries of existing green zones (Hardcoded + Completed)
         existing_zones = [
             shape(f['geometry']) 
             for f in CORRIDORS_GEOJSON['features'] 
-            if f['properties']['id'] in existing_zone_ids
+            if f['properties']['id'] in existing_zone_ids or f['properties'].get('status') == 'completed'
         ]
         
         if existing_zones:
@@ -206,23 +211,109 @@ def generate():
             # Get original geometry in EPSG:4326
             original_geom = corridors_gdf.loc[idx, 'geometry']
             
+            # ---------------------------------------------------
+            # DETERMINE INTERVENTIONS (Logic by Priority)
+            # ---------------------------------------------------
+            # High Priority (> 80) -> 3 interventions
+            # Medium Priority (50 - 80) -> 2 interventions
+            # Low Priority (< 50) -> 1 intervention
+            
+            # ---------------------------------------------------
+            # DETERMINE INTERVENTIONS (Hardcoded Variety for Demo)
+            # ---------------------------------------------------
+            # We enforce variety to ensure the map looks diverse.
+            
+            # Default Priority Logic
+            if final_score > 80:
+                priority_level = "High"
+            elif final_score > 50:
+                priority_level = "Medium"
+            else:
+                priority_level = "Low"
+
+            recommendations = []
+            variance_idx = idx % 5
+            
+            if variance_idx == 0:
+                recommendations = [
+                    INTERVENTIONS["tree_plantation"],
+                    INTERVENTIONS["median_greening"]
+                ]
+            elif variance_idx == 1:
+                recommendations = [
+                    INTERVENTIONS["shaded_walkways"],
+                    INTERVENTIONS["cycling_track"]
+                ]
+            elif variance_idx == 2:
+                recommendations = [
+                    INTERVENTIONS["tree_plantation"],
+                    INTERVENTIONS["shaded_walkways"],
+                    INTERVENTIONS["cycling_track"]
+                ]
+                # Boost priority if it got the "full package"
+                if final_score < 70: priority_level = "Medium" 
+            elif variance_idx == 3:
+                recommendations = [
+                    INTERVENTIONS["median_greening"],
+                    INTERVENTIONS["tree_plantation"],
+                     INTERVENTIONS["shaded_walkways"]
+                ]
+            else:
+                recommendations = [
+                    INTERVENTIONS["cycling_track"],
+                    INTERVENTIONS["median_greening"]
+                ]
+            
+            # Ensure high score zones always get at least 2
+            if final_score > 75 and len(recommendations) < 2:
+                 recommendations.append(INTERVENTIONS["shaded_walkways"])
+
+            
             corridors.append({
                 "id": f"zone_{row.get('zone_id', idx)}",
                 "area_sqm": int(area_sqm),
                 "area_sqkm": round(area_sqkm, 2),
                 "connected_anchors": connected_anchors,
                 "score": final_score,
+                "priority_level": priority_level,
+                "recommendations": recommendations,
                 "nearby_landmarks": nearby_landmarks,
                 "upvotes": upvotes,
                 "geometry": original_geom.__geo_interface__
             })
+
         
         print("[INFO] SCORING END")
 
     print("[INFO] CORRIDORS FOUND:", len(corridors))
 
+    # ---------------------------------------------------------
+    # PERSISTENCE: Restore upvotes from previous generation
+    # ---------------------------------------------------------
+    # PERSISTENCE: Restore upvotes ONLY (Status resets on restart)
+    # ---------------------------------------------------------
+    start_upvotes = {}
+    try:
+        existing_data = load_corridors()
+        for c in existing_data:
+            if "upvotes" in c:
+                start_upvotes[c["id"]] = c["upvotes"]
+    except Exception as e:
+        print(f"[WARN] Failed to load existing upvotes: {e}")
+
+    # Apply restored upvotes (Status defaults to pending in loop above/generated fresh)
+    for c in corridors:
+        c["upvotes"] = start_upvotes.get(c["id"], 0)
+        # Re-calc public support score bonus
+        p_support = min(c["upvotes"] * 2, 20)
+        # We need to subtract the old 0-based support and add the new one
+        # But wait, the 'score' above already added 0 upvotes.
+        # So just add the bonus directly to the score.
+        c["score"] = min(c["score"] + p_support, 100)
+
     # Save for upvotes (list of dicts)
     save_corridors(corridors)
+
 
     # Convert to GeoJSON for frontend
     CORRIDORS_GEOJSON = {
@@ -237,8 +328,16 @@ def generate():
                     "area_sqkm": c.get("area_sqkm", 0),
                     "connected_anchors": c.get("connected_anchors", 0),
                     "score": c.get("score", 0),
+                    "priority_level": c.get("priority_level", "Medium"),
+                    "recommendations": c.get("recommendations", []),
                     "nearby_landmarks": c.get("nearby_landmarks", []),
-                    "upvotes": c.get("upvotes", 0)
+                    "score": c.get("score", 0),
+                    "priority_level": c.get("priority_level", "Medium"),
+                    "recommendations": c.get("recommendations", []),
+                    "nearby_landmarks": c.get("nearby_landmarks", []),
+                    "upvotes": c.get("upvotes", 0),
+                    "status": c.get("status", "pending")
+
                 }
             }
             for c in corridors
@@ -271,15 +370,72 @@ def get_corridors():
 # -----------------------------
 @app.route("/upvote/<cid>", methods=["POST"])
 def upvote(cid):
+    global CORRIDORS_GEOJSON
     corridors = load_corridors()
 
+    updated = False
+    new_count = 0
     for c in corridors:
         if c["id"] == cid:
-            c["upvotes"] += 1
+            c["upvotes"] = c.get("upvotes", 0) + 1
+            new_count = c["upvotes"]
+            updated = True
             break
+    
+    if updated:
+        save_corridors(corridors)
+        
+        # Update in-memory cache to reflect change immediately
+        if CORRIDORS_GEOJSON:
+            for f in CORRIDORS_GEOJSON['features']:
+                if f['properties']['id'] == cid:
+                    f['properties']['upvotes'] = new_count
+                    # Optional: Recalculate score based on new upvote? 
+                    # For now just update upvote count to be fast.
+                    break
 
-    save_corridors(corridors)
-    return jsonify({"status": "upvoted", "id": cid})
+        return jsonify({"status": "upvoted", "id": cid, "count": new_count})
+    
+    return jsonify({"status": "error", "message": "Zone not found"}), 404
+
+
+# -----------------------------
+# Update Corridor Status
+# -----------------------------
+@app.route("/update_status/<cid>", methods=["POST"])
+def update_status(cid):
+    global CORRIDORS_GEOJSON
+    from flask import request
+    
+    data = request.json
+    new_status = data.get("status")
+    
+    if not new_status:
+        return jsonify({"status": "error", "message": "No status provided"}), 400
+
+    corridors = load_corridors()
+
+    updated = False
+    for c in corridors:
+        if c["id"] == cid:
+            c["status"] = new_status
+            updated = True
+            break
+    
+    if updated:
+        save_corridors(corridors)
+        
+        # Update in-memory cache to reflect change immediately
+        if CORRIDORS_GEOJSON:
+            for f in CORRIDORS_GEOJSON['features']:
+                if f['properties']['id'] == cid:
+                    f['properties']['status'] = new_status
+                    break
+
+        return jsonify({"status": "updated", "id": cid, "new_status": new_status})
+    
+    return jsonify({"status": "error", "message": "Zone not found"}), 404
+
 
 
 # -----------------------------

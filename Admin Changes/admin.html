@@ -13,10 +13,6 @@
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Leaflet Map -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <!-- Admin CSS -->
     <link rel="stylesheet" href="../theme.css">
@@ -154,9 +150,7 @@
                     <option value="pending">Pending</option>
                     <option value="approved">Approved</option>
                     <option value="work-in-progress">Work in Progress</option>
-                    <option value="completed">Completed</option>
                     <option value="rejected">Rejected</option>
-
                 </select>
 
                 <select id="sort-by">
@@ -229,11 +223,6 @@
                 <div class="detail-info-box">
                     <strong>AI Reasoning:</strong>
                     <p id="modal-reason">--</p>
-                </div>
-                
-                <!-- Mini Map Container -->
-                <div id="modal-map-container" style="margin-top: 15px; border-radius: 8px; overflow: hidden; border: 1px solid #ddd;">
-                    <div id="modal-map" style="height: 250px; width: 100%;"></div>
                 </div>
             </div>
             <div class="modal-footer">

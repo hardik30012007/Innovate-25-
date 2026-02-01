@@ -63,52 +63,108 @@ Promise.all([
   window.overlayLayers["Green Anchors"] = greenLayer;
 
   // --- Process Corridors ---
-  const existingZoneIds = ['zone_13', 'zone_6', 'zone_4']; // User Zones 14, 7, 5
-  const suggestedFeatures = corridorsData.features.filter(f => !existingZoneIds.includes(f.properties.id));
-  const existingFeatures = corridorsData.features.filter(f => existingZoneIds.includes(f.properties.id));
+  // Status-based classification
+  const hardcodedExistingIds = ['zone_13', 'zone_6', 'zone_4']; // Original Hackathon User Zones
 
-  // 1. Collect all points of Existing Green Zones
+  const completedFeatures = [];
+  const wipFeatures = [];
+  const suggestedFeatures = [];
+
+  corridorsData.features.forEach(f => {
+    const p = f.properties;
+    // Default to pending if undefined
+    const status = p.status || 'pending';
+
+    if (hardcodedExistingIds.includes(p.id) || status === 'completed') {
+      completedFeatures.push(f);
+    } else if (status === 'work-in-progress') {
+      wipFeatures.push(f);
+    } else {
+      suggestedFeatures.push(f);
+    }
+  });
+
+  // 1. Collect all points of Existing/Completed Green Zones for calculation
   const implementedPoints = [];
-  if (existingFeatures.length > 0) {
-    const existingZonesLayer = L.geoJSON({ type: "FeatureCollection", features: existingFeatures }, {
-      pane: "corridorsPane",
+  if (completedFeatures.length > 0) {
+    const existingZonesLayer = L.geoJSON({ type: "FeatureCollection", features: completedFeatures }, {
+      pane: "corridorsPane", // Keep in corridors pane so it renders above base parks
       style: { fillColor: "#00c853", fillOpacity: 0.8, color: "#1b5e20", weight: 3 },
       onEachFeature: (feature, layer) => {
         const zoneNum = parseInt(feature.properties.id.split('_')[1]) + 1;
 
         // Extract all points for edge-to-edge distance calculation
-        const coords = feature.geometry.coordinates[0];
-        coords.forEach(c => {
-          implementedPoints.push(L.latLng(c[1], c[0]));
-        });
+        if (feature.geometry.type === "Polygon" || feature.geometry.type === "MultiPolygon") {
+          // Simplify point extraction
+          const coords = feature.geometry.coordinates.flat(Infinity);
+          for (let i = 0; i < coords.length; i += 2) {
+            // simplistic flattening can be risky but works for extraction if uniform
+            implementedPoints.push(L.latLng(coords[i + 1], coords[i]));
+          }
+        }
 
-        layer.bindTooltip(`<b>Zone ${zoneNum}</b> <span style="color:#4caf50">●</span><br>Status: Implemented`, { sticky: true });
+        layer.bindTooltip(`<b>Zone ${zoneNum}</b> <span style="color:#4caf50">●</span><br>Status: Existing/Completed`, { sticky: true });
       }
     }).addTo(map);
     window.overlayLayers["Existing Green Zones"] = existingZonesLayer;
   }
 
-  // 2. AI Suggestions with Correct Perimeter Distance
+  // 2. Work In Progress Green Zones (NEW LAYER)
+  if (wipFeatures.length > 0) {
+    const wipLayer = L.geoJSON({ type: "FeatureCollection", features: wipFeatures }, {
+      pane: "corridorsPane",
+      style: {
+        fillColor: "#69f0ae", // Lighter Green
+        fillOpacity: 0.6,
+        color: "#00e676",
+        weight: 4,
+        dashArray: "15, 15",
+        dashOffset: "0"
+      },
+      onEachFeature: (feature, layer) => {
+        const zoneNum = parseInt(feature.properties.id.split('_')[1]) + 1;
+        layer.bindTooltip(`<b>Zone ${zoneNum}</b> <span style="color:#00e676">●</span><br>Status: Work In Progress`, { sticky: true });
+
+        // Add Pulse Animation CSS Class if possible (requires advanced Leaflet or CSS trick)
+        // For now just standard popup
+        layer.bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#00e676"><i class="fa-solid fa-hammer"></i> Work In Progress</h3>
+                <p><strong>Zone ${zoneNum}</strong> is currently being developed.</p>
+                <div class="popup-stats">
+                    <div><span>Area:</span> <strong>${feature.properties.area_sqkm} sq km</strong></div>
+                </div>
+            </div>
+        `, { className: 'zone-popup' });
+      }
+    }).addTo(map);
+    window.overlayLayers["Work In Progress"] = wipLayer;
+  }
+
+  // 3. AI Suggestions (Yellow/Orange)
   if (suggestedFeatures.length > 0) {
     const corridorLayer = L.geoJSON({ type: "FeatureCollection", features: suggestedFeatures }, {
       pane: "corridorsPane",
-      style: { fillColor: "#ffea00", fillOpacity: 0.5, color: "#ff9100", weight: 2, dashArray: "10, 10" },
+      style: { fillColor: "#ffea00", fillOpacity: 0.5, color: "#ff9100", weight: 2, dashArray: "5, 5" },
       onEachFeature: (feature, layer) => {
         const p = feature.properties;
         const zoneNum = parseInt(p.id.split('_')[1]) + 1;
 
         let minDistance = Infinity;
-        const suggestedCoords = feature.geometry.coordinates[0];
 
-        // Calculate the shortest distance between any vertex of the suggestion and any vertex of implemented zones
-        // This simulates edge-to-edge proximity more accurately than center-to-center
-        suggestedCoords.forEach(c_sug => {
-          const sugPt = L.latLng(c_sug[1], c_sug[0]);
+        // --- Distance Calculation Logic ---
+        // Iterate through all points of this recommended zone
+        const coords = feature.geometry.coordinates.flat(Infinity);
+        for (let i = 0; i < coords.length; i += 2) {
+          const sugPt = L.latLng(coords[i + 1], coords[i]);
+          // Compare with Implemented Points
+          // Performance note: fast brute force for <5 zones is fine.
           implementedPoints.forEach(implPt => {
             const dist = sugPt.distanceTo(implPt);
             if (dist < minDistance) minDistance = dist;
           });
-        });
+        }
+
 
         // Apply Penalty Logic (Distances < 500, 1000, 2000)
         let penalty = 0;
@@ -120,16 +176,69 @@ Promise.all([
         p.proximityPenalty = penalty;
         p.minDistance = minDistance;
 
+
+
         const distStr = minDistance === Infinity ? "N/A" : `${(minDistance / 1000).toFixed(2)} km`;
 
-        layer.bindTooltip(
-          `<b>Zone ${zoneNum}</b><br>
-           AI Base Score: ${p.score}<br>
-           Edge-to-Edge Dist: ${distStr}<br>
-           Proximity Penalty: -${p.proximityPenalty}<br>
-           <b>Final Priority: ${p.adjustedScore}</b>`,
-          { sticky: true }
-        );
+        // Build Interventions List
+        let interventionsHtml = "";
+        if (p.recommendations && p.recommendations.length > 0) {
+          interventionsHtml += `<div class="popup-interventions">
+            <h4><i class="fa-solid fa-wand-magic-sparkles"></i> AI Interventions</h4>
+            <ul>`;
+          p.recommendations.forEach(rec => {
+            interventionsHtml += `
+              <li>
+                <strong>${rec.title}</strong>
+                <p>${rec.description}</p>
+              </li>`;
+          });
+          interventionsHtml += `</ul></div>`;
+        }
+
+        // Determine Priority Color
+        let priorityColor = "#ff9800"; // Medium (Orange)
+        if (p.priority_level === "High") priorityColor = "#f44336"; // Red
+        else if (p.priority_level === "Low") priorityColor = "#4caf50"; // Green
+
+        // Create interactive popup content
+        const popupContent = `
+          <div class="popup-content">
+            <h3 class="popup-title">
+              <span><i class="fa-solid fa-seedling"></i> Zone ${zoneNum}</span>
+              <span class="priority-badge" style="background:${priorityColor}">${p.priority_level} Priority</span>
+            </h3>
+            
+            <div class="popup-stats">
+              <div><span>Score:</span> <strong>${p.score}</strong></div>
+              <div><span>Adjusted:</span> <strong>${p.adjustedScore}</strong></div>
+              <div><span>Distance:</span> ${distStr}</div>
+              <div><span>Penalty:</span> -${p.proximityPenalty}</div>
+            </div>
+
+            ${interventionsHtml}
+            
+            <button class="btn-upvote" onclick="window.handleUpvote('${p.id}', this)">
+              <i class="fa-solid fa-thumbs-up"></i> 
+              Upvote 
+              <span id="vote-count-${p.id}" class="vote-badge">${p.upvotes || 0}</span>
+            </button>
+          </div>
+        `;
+
+        layer.bindPopup(popupContent, {
+          className: 'zone-popup',
+          minWidth: 200
+        });
+
+        // Also keep a simpler tooltip for quick hover
+        layer.bindTooltip(`<b>Zone ${zoneNum}</b><br>Score: ${p.adjustedScore}`, {
+          sticky: true,
+          direction: 'top',
+          className: 'zone-tooltip'
+        });
+
+
       }
     }).addTo(map);
 
@@ -156,3 +265,42 @@ Promise.all([
     }
   }
 });
+// ===============================
+// 4. Map Interactions (Upvote)
+// ===============================
+window.handleUpvote = function (zoneId, btnElement) {
+  // Visual feedback
+  const originalText = btnElement.innerHTML;
+  btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Voting...';
+  btnElement.disabled = true;
+
+  fetch(`http://127.0.0.1:5001/upvote/${zoneId}`, { method: 'POST' })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'upvoted') {
+        // Update count in UI
+        const countSpan = document.getElementById(`vote-count-${zoneId}`);
+        if (countSpan) countSpan.innerText = data.count;
+
+        // Update button state
+        btnElement.innerHTML = `<i class="fa-solid fa-check"></i> Voted <span class="vote-badge">${data.count}</span>`;
+        btnElement.classList.add('voted');
+
+        // Update underlying data so it persists if popup reopens
+        const layer = window.overlayLayers["AI Suggested Corridors"].getLayers().find(l => l.feature.properties.id === zoneId);
+        if (layer) {
+          layer.feature.properties.upvotes = data.count;
+        }
+      } else {
+        alert("Failed to upvote. Try again.");
+        btnElement.innerHTML = originalText;
+        btnElement.disabled = false;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      btnElement.innerHTML = originalText;
+      btnElement.disabled = false;
+    });
+};
+

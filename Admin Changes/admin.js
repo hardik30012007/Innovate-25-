@@ -98,12 +98,8 @@ async function fetchData() {
                 bonus: communityBonus,
                 combined_score: combinedScore,
                 priority: priorityLabel,
-                priority: priorityLabel,
-                priority: priorityLabel,
-                status: p.status || (isImplemented ? 'approved' : 'pending'),
-                distance_to_green: minDistance,
-                distance_to_green: minDistance,
-                geometry: f.geometry // Added for Mini Map
+                status: isImplemented ? 'approved' : 'pending',
+                distance_to_green: minDistance
             };
         });
 
@@ -154,23 +150,16 @@ function renderTable(data) {
         // FIX 1: Add Reject Button (Cross) and FIX 5: Change Approve to 'Work in Progress'
         if (item.status === 'pending') {
             actionsHtml += `
-                <button class="btn-sm btn-approve" onclick="updateStatus('${item.id}', 'work-in-progress')" title="Approve & Start Work">
+                <button class="btn-sm btn-approve" onclick="updateStatus('${item.id}', 'work-in-progress')" title="Approve">
                     <i class="fa-solid fa-check"></i>
                 </button>
                 <button class="btn-sm btn-reject" onclick="updateStatus('${item.id}', 'rejected')" title="Reject">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             `;
-        } else if (item.status === 'work-in-progress') {
-            actionsHtml = `
-                <button class="btn-sm btn-complete" onclick="updateStatus('${item.id}', 'completed')" title="Mark as Completed">
-                    <i class="fa-solid fa-check-double"></i> Done
-                </button>
-            `;
         } else {
             actionsHtml = `<span class="badge ${item.status === 'approved' ? 'score-high' : 'score-low'}">${item.status}</span>`;
         }
-
 
         // FIX 2: Removed inline styles (color: #555 etc) so CSS handles dark mode
         return `
@@ -238,10 +227,8 @@ function applyFilters() {
 function updateKPIs() {
     kpiTotal.innerText = masterData.length;
     kpiSupported.innerText = masterData.filter(x => x.votes > 1000).length;
-    // KPI Approved now counts Approved + Work in Progress + Completed as "Active/Positive" workflows
-    kpiApproved.innerText = masterData.filter(x => ['approved', 'work-in-progress', 'completed'].includes(x.status)).length;
+    kpiApproved.innerText = masterData.filter(x => x.status === 'approved' || x.status === 'work-in-progress').length;
     kpiPending.innerText = masterData.filter(x => x.status === 'pending').length;
-
 }
 
 // --- Modal & Toast ---
@@ -265,39 +252,6 @@ function viewDetails(id) {
     document.getElementById('modal-reason').innerText = reason;
     modalOverlay.classList.remove('hidden');
     modalOverlay.classList.add('active');
-
-    // --- Initialize Mini Map ---
-    setTimeout(() => {
-        if (!window.miniMap) {
-            window.miniMap = L.map('modal-map').setView([28.61, 77.23], 11);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                maxZoom: 19
-            }).addTo(window.miniMap);
-        }
-
-        // Invalidate size to prevent grey tiles
-        window.miniMap.invalidateSize();
-
-        // Clear previous layers
-        if (window.currentLayer) window.miniMap.removeLayer(window.currentLayer);
-
-        // Find the feature from masterData/CorridorsRes (we need geometry which might be stripped in masterData but we have it in corridorsRes if accessible, 
-        // OR we can store geometry in masterData. Checking masterData construction...)
-        // NOTE: We need to ensure masterData includes geometry. 
-        // Current masterData mapping: NO GEOMETRY. 
-        // FIX: I will add geometry to masterData mapping in fetchData() first.
-
-        if (item.geometry) {
-            window.currentLayer = L.geoJSON(item.geometry, {
-                style: {
-                    color: item.status === 'completed' ? '#0f5132' : '#ff9800',
-                    weight: 4,
-                    opacity: 0.8
-                }
-            }).addTo(window.miniMap);
-            window.miniMap.fitBounds(window.currentLayer.getBounds(), { padding: [20, 20] });
-        }
-    }, 100);
 }
 
 function closeModal() {
@@ -305,44 +259,12 @@ function closeModal() {
     setTimeout(() => modalOverlay.classList.add('hidden'), 300);
 }
 
-async function updateStatus(id, newStatus) {
-    const btn = document.querySelector(`button[onclick="updateStatus('${id}', '${newStatus}')"]`);
-    const originalContent = btn ? btn.innerHTML : '';
-
-    if (btn) {
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-        btn.disabled = true;
-    }
-
-    try {
-        const res = await fetch(`http://127.0.0.1:5001/update_status/${id}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: newStatus })
-        });
-        const data = await res.json();
-
-        if (data.status === 'updated') {
-            const item = masterData.find(x => x.id === id);
-            if (item) {
-                item.status = newStatus;
-                showToast(`${id} marked as ${newStatus.replace(/-/g, ' ')}`, 'success');
-                applyFilters(); // Re-render to update UI
-            }
-        } else {
-            showToast("Failed to update status", "error");
-            if (btn) {
-                btn.innerHTML = originalContent;
-                btn.disabled = false;
-            }
-        }
-    } catch (e) {
-        console.error(e);
-        showToast("Server error", "error");
-        if (btn) {
-            btn.innerHTML = originalContent;
-            btn.disabled = false;
-        }
+function updateStatus(id, newStatus) {
+    const item = masterData.find(x => x.id === id);
+    if (item) {
+        item.status = newStatus;
+        showToast(`${id} marked as ${newStatus.replace(/-/g, ' ')}`, 'success');
+        applyFilters(); // Re-render to update UI
     }
 }
 

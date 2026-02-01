@@ -5,6 +5,17 @@
     "area_sqkm": 1.67,
     "connected_anchors": 2,
     "score": 50,
+    "priority_level": "Low",
+    "recommendations": [
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -69,7 +80,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 5.6,
+      "openness": 3.0,
+      "shade": 1,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 3.92,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_1",
@@ -77,6 +101,17 @@
     "area_sqkm": 3.64,
     "connected_anchors": 6,
     "score": 65,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      },
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -137,7 +172,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_2",
@@ -145,6 +193,21 @@
     "area_sqkm": 1.43,
     "connected_anchors": 2,
     "score": 50,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      },
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -197,7 +260,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 5.6,
+      "openness": 3.0,
+      "shade": 1,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 3.92,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_3",
@@ -205,6 +281,21 @@
     "area_sqkm": 2.81,
     "connected_anchors": 2,
     "score": 50,
+    "priority_level": "Low",
+    "recommendations": [
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      },
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -305,7 +396,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 5.6,
+      "openness": 3.0,
+      "shade": 1,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 3.92,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_4",
@@ -313,6 +417,17 @@
     "area_sqkm": 4.35,
     "connected_anchors": 3,
     "score": 55,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      },
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -449,7 +564,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_5",
@@ -457,6 +585,17 @@
     "area_sqkm": 9.96,
     "connected_anchors": 5,
     "score": 65,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -697,7 +836,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_6",
@@ -705,6 +857,17 @@
     "area_sqkm": 2.67,
     "connected_anchors": 2,
     "score": 50,
+    "priority_level": "Low",
+    "recommendations": [
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      },
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -801,7 +964,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 5.6,
+      "openness": 3.0,
+      "shade": 1,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 3.92,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_7",
@@ -809,6 +985,21 @@
     "area_sqkm": 3.66,
     "connected_anchors": 3,
     "score": 55,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      },
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -941,7 +1132,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_8",
@@ -949,6 +1153,21 @@
     "area_sqkm": 5.54,
     "connected_anchors": 5,
     "score": 65,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      },
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -1037,16 +1256,40 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_9",
     "area_sqm": 19055325,
     "area_sqkm": 19.06,
     "connected_anchors": 13,
-    "score": 75,
+    "score": 79,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      },
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      }
+    ],
     "nearby_landmarks": [],
-    "upvotes": 0,
+    "upvotes": 2,
     "geometry": {
       "type": "Polygon",
       "coordinates": [
@@ -1309,7 +1552,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_10",
@@ -1317,6 +1573,17 @@
     "area_sqkm": 10.28,
     "connected_anchors": 7,
     "score": 70,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -1453,7 +1720,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_11",
@@ -1461,6 +1741,17 @@
     "area_sqkm": 3.36,
     "connected_anchors": 3,
     "score": 55,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      },
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -1557,7 +1848,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_12",
@@ -1565,6 +1869,21 @@
     "area_sqkm": 14.55,
     "connected_anchors": 10,
     "score": 75,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      },
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -1881,7 +2200,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_13",
@@ -1889,6 +2221,21 @@
     "area_sqkm": 18.31,
     "connected_anchors": 3,
     "score": 55,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      },
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -2233,7 +2580,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_14",
@@ -2241,6 +2601,17 @@
     "area_sqkm": 1.24,
     "connected_anchors": 2,
     "score": 50,
+    "priority_level": "Low",
+    "recommendations": [
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      },
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -2293,7 +2664,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 5.6,
+      "openness": 3.0,
+      "shade": 1,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 3.92,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_15",
@@ -2301,6 +2685,17 @@
     "area_sqkm": 4.91,
     "connected_anchors": 4,
     "score": 60,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -2393,7 +2788,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_16",
@@ -2401,6 +2809,17 @@
     "area_sqkm": 3.45,
     "connected_anchors": 4,
     "score": 60,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      },
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -2501,7 +2920,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_17",
@@ -2509,6 +2941,21 @@
     "area_sqkm": 2.63,
     "connected_anchors": 2,
     "score": 50,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      },
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -2573,7 +3020,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 5.6,
+      "openness": 3.0,
+      "shade": 1,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 3.92,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_18",
@@ -2581,6 +3041,21 @@
     "area_sqkm": 1.22,
     "connected_anchors": 2,
     "score": 50,
+    "priority_level": "Low",
+    "recommendations": [
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      },
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -2637,7 +3112,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 5.6,
+      "openness": 3.0,
+      "shade": 1,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 3.92,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_19",
@@ -2645,6 +3133,17 @@
     "area_sqkm": 4.74,
     "connected_anchors": 4,
     "score": 60,
+    "priority_level": "Medium",
+    "recommendations": [
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      },
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -2729,7 +3228,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 4.2,
+      "openness": 3.0,
+      "shade": 0,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 2.94,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_20",
@@ -2737,6 +3249,17 @@
     "area_sqkm": 1.46,
     "connected_anchors": 2,
     "score": 50,
+    "priority_level": "Low",
+    "recommendations": [
+      {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+      },
+      {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -2789,7 +3312,20 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 5.6,
+      "openness": 3.0,
+      "shade": 1,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 3.92,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   },
   {
     "id": "zone_21",
@@ -2797,6 +3333,17 @@
     "area_sqkm": 1.64,
     "connected_anchors": 2,
     "score": 50,
+    "priority_level": "Low",
+    "recommendations": [
+      {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+      },
+      {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+      }
+    ],
     "nearby_landmarks": [],
     "upvotes": 0,
     "geometry": {
@@ -2849,6 +3396,19 @@
           ]
         ]
       ]
-    }
+    },
+    "solar_before": {
+      "sei": 5.6,
+      "openness": 3.0,
+      "shade": 1,
+      "time_multiplier": 1.4
+    },
+    "solar_after": {
+      "sei": 3.92,
+      "openness": 3.0,
+      "shade": 0.0,
+      "time_multiplier": 1.4
+    },
+    "solar_reduction_percent": 30.0
   }
 ]

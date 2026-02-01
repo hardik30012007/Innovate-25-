@@ -6,11 +6,35 @@ MAX_CORRIDOR_DISTANCE = 2000  # 2 km
 
 
 # Constraints
+# Constraint
 MIN_ANCHOR_AREA = 50000  # 50,000 sqm (approx 5 hectares)
 MIN_ZONE_AREA = 100000   # 100,000 sqm (approx 10 hectares) for final result
 
 
+# -----------------------------------------------------------------------------
+# Green Intervention Constants
+# -----------------------------------------------------------------------------
+INTERVENTIONS = {
+    "tree_plantation": {
+        "title": "Tree Plantation",
+        "description": "Planting native trees along roadsides to create natural cooling, reduce pollution, and improve neighborhood air quality."
+    },
+    "shaded_walkways": {
+        "title": "Shaded Pedestrian Walkways",
+        "description": "Adding continuous shade and comfortable paths to make walking safer and more pleasant during hot weather."
+    },
+    "cycling_track": {
+        "title": "Dedicated Cycling Track",
+        "description": "Creating marked lanes or separated paths to give cyclists a safe, uninterrupted route away from city traffic."
+    },
+    "median_greening": {
+        "title": "Median Greening",
+        "description": "Planting protective green barriers in road dividers to absorb dust, lower emissions, and visually separate traffic lanes."
+    }
+}
+
 def generate_corridors(green_anchors_gdf):
+
     """
     Takes green anchors GeoDataFrame
     Returns GeoDataFrame of corridor LineStrings

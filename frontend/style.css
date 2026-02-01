@@ -359,3 +359,205 @@ body.boxed-layout {
   animation: dash 1s linear infinite;
   stroke-dasharray: 10, 10;
 }
+
+/* Update Button in Popup */
+/* Update Button in Popup */
+.btn-upvote {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  /* Gradient Green */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: white;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+.btn-upvote:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.5);
+  background: linear-gradient(135deg, #388e3c, #2e7d32);
+}
+
+.btn-upvote i {
+  font-size: 1.2em;
+}
+
+/* Voted State */
+.btn-upvote.voted {
+  background: rgba(255, 255, 255, 0.1);
+  color: #a5d6a7;
+  border-color: #a5d6a7;
+  cursor: default;
+  box-shadow: none;
+  transform: none;
+}
+
+.vote-badge {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  margin-left: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ========================================
+   POPUP STYLES (Light Glassmorphism)
+   ======================================== */
+.zone-popup .leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 16px !important;
+  color: #333 !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+.zone-popup .leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+.zone-popup .leaflet-popup-content {
+  margin: 18px !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+.zone-popup h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #2e7d32;
+  /* Forest green for title */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.popup-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: #5f6368;
+}
+
+.popup-stats div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-stats span {
+  opacity: 0.9;
+}
+
+.popup-stats strong {
+  color: #1b5e20;
+  /* Dark green for values */
+}
+
+
+/* ========================================
+   CUSTOM TOOLTIP STYLES (Light)
+   ======================================== */
+.zone-tooltip {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 8px !important;
+  color: #333 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.85rem !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Hide the little triangle tip if desired, or style it */
+.zone-tooltip::before {
+  border-top-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* ========================================
+   INTERVENTIONS STYLES (Light Mode)
+   ======================================== */
+.popup-interventions {
+  margin-bottom: 15px;
+  background: rgba(46, 125, 50, 0.05);
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid rgba(46, 125, 50, 0.1);
+}
+
+.popup-interventions h4 {
+  margin: 0 0 10px 0;
+  font-size: 0.95rem;
+  color: #1b5e20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.popup-interventions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.popup-interventions li {
+  position: relative;
+  padding-left: 12px;
+  border-left: 2px solid #a5d6a7;
+}
+
+.popup-interventions li strong {
+  display: block;
+  font-size: 0.85rem;
+  color: #2e7d32;
+  margin-bottom: 2px;
+}
+
+.popup-interventions li p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #555;
+  line-height: 1.3;
+}
+
+/* Priority Badge in Header */
+.popup-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.priority-badge {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
