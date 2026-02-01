@@ -1,0 +1,63 @@
+/* Info Icon with Tooltip */
+.info-icon {
+  color: #aaa;
+  font-size: 0.9em;
+  margin-left: 6px;
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  transition: color 0.2s;
+}
+
+.info-icon:hover {
+  color: var(--primary-leaf);
+}
+
+/* Tooltip Text */
+.info-icon .tooltip-text {
+  visibility: hidden;
+  width: 220px;
+  background-color: rgba(30, 30, 30, 0.95);
+  color: #fff;
+  text-align: left;
+  border-radius: 8px;
+  padding: 10px;
+  position: absolute;
+  z-index: 10000;
+  bottom: 125%; /* Position above */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  pointer-events: none;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.info-icon .tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(30, 30, 30, 0.95) transparent transparent transparent;
+}
+
+.info-icon:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-title {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #ffeb3b;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 2px;
+}

@@ -80,20 +80,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 5.6,
-      "openness": 3.0,
-      "shade": 1,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 3.92,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_1",
@@ -172,20 +159,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_2",
@@ -260,27 +234,14 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 5.6,
-      "openness": 3.0,
-      "shade": 1,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 3.92,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_3",
     "area_sqm": 2808882,
     "area_sqkm": 2.81,
     "connected_anchors": 2,
-    "score": 50,
+    "score": 52,
     "priority_level": "Low",
     "recommendations": [
       {
@@ -297,7 +258,7 @@
       }
     ],
     "nearby_landmarks": [],
-    "upvotes": 0,
+    "upvotes": 1,
     "geometry": {
       "type": "Polygon",
       "coordinates": [
@@ -396,27 +357,14 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 5.6,
-      "openness": 3.0,
-      "shade": 1,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 3.92,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_4",
     "area_sqm": 4352011,
     "area_sqkm": 4.35,
     "connected_anchors": 3,
-    "score": 55,
+    "score": 59,
     "priority_level": "Medium",
     "recommendations": [
       {
@@ -429,7 +377,7 @@
       }
     ],
     "nearby_landmarks": [],
-    "upvotes": 0,
+    "upvotes": 2,
     "geometry": {
       "type": "Polygon",
       "coordinates": [
@@ -564,20 +512,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_5",
@@ -836,20 +771,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_6",
@@ -964,20 +886,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 5.6,
-      "openness": 3.0,
-      "shade": 1,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 3.92,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_7",
@@ -1132,20 +1041,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_8",
@@ -1256,20 +1152,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_9",
@@ -1552,20 +1435,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_10",
@@ -1720,20 +1590,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_11",
@@ -1848,20 +1705,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_12",
@@ -2200,20 +2044,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_13",
@@ -2580,20 +2411,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_14",
@@ -2664,20 +2482,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 5.6,
-      "openness": 3.0,
-      "shade": 1,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 3.92,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_15",
@@ -2788,20 +2593,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_16",
@@ -2920,20 +2712,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_17",
@@ -3020,20 +2799,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 5.6,
-      "openness": 3.0,
-      "shade": 1,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 3.92,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_18",
@@ -3112,20 +2878,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 5.6,
-      "openness": 3.0,
-      "shade": 1,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 3.92,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_19",
@@ -3228,20 +2981,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 4.2,
-      "openness": 3.0,
-      "shade": 0,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 2.94,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_20",
@@ -3312,20 +3052,7 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 5.6,
-      "openness": 3.0,
-      "shade": 1,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 3.92,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   },
   {
     "id": "zone_21",
@@ -3396,19 +3123,6 @@
           ]
         ]
       ]
-    },
-    "solar_before": {
-      "sei": 5.6,
-      "openness": 3.0,
-      "shade": 1,
-      "time_multiplier": 1.4
-    },
-    "solar_after": {
-      "sei": 3.92,
-      "openness": 3.0,
-      "shade": 0.0,
-      "time_multiplier": 1.4
-    },
-    "solar_reduction_percent": 30.0
+    }
   }
 ]

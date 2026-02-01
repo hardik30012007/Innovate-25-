@@ -9,6 +9,7 @@ from green_anchor_processor import generate_green_anchors
 from green_anchor_processor import generate_green_anchors
 from coordinate_generator.corridor_generator import generate_corridors, INTERVENTIONS
 from storage_utils import load_corridors, save_corridors
+from ai_agent import ask_gemini_agent
 
 
 # Suppress Flask's request logging (only show errors)
@@ -436,6 +437,26 @@ def update_status(cid):
     
     return jsonify({"status": "error", "message": "Zone not found"}), 404
 
+
+
+    return jsonify({"status": "error", "message": "Zone not found"}), 404
+
+
+# -----------------------------
+# AI Agent Endpoint
+# -----------------------------
+@app.route("/ask_agent", methods=["POST"])
+def ask_agent():
+    from flask import request
+    data = request.json
+    user_text = data.get("query", "")
+    context_text = data.get("context", "")
+    
+    if not user_text:
+        return jsonify({"reply": "I didn't hear you.", "action": None}), 400
+        
+    response_data = ask_gemini_agent(user_text, context_text)
+    return jsonify(response_data)
 
 
 # -----------------------------

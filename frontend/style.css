@@ -56,8 +56,10 @@ body.boxed-layout {
 }
 
 .btn-home:hover {
-  background: var(--primary-leaf);
+  background: var(--primary-forest);
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Main content (whitespace around map) */

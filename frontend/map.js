@@ -210,10 +210,33 @@ Promise.all([
             </h3>
             
             <div class="popup-stats">
-              <div><span>Score:</span> <strong>${p.score}</strong></div>
+              <div>
+                <span>Score: <i class="fa-solid fa-circle-info info-icon">
+                    <span class="tooltip-text">
+                        <span class="tooltip-title">Score Calculation</span>
+                        • Area Size: up to 40pts<br>
+                        • Connectivity: up to 35pts<br>
+                        • Landmarks: up to 25pts<br>
+                        • Community Bonus: up to 20pts<br>
+                        (Max Total: 100)
+                    </span>
+                </i></span> 
+                <strong>${p.score}</strong>
+              </div>
               <div><span>Adjusted:</span> <strong>${p.adjustedScore}</strong></div>
               <div><span>Distance:</span> ${distStr}</div>
-              <div><span>Penalty:</span> -${p.proximityPenalty}</div>
+              <div>
+                <span>Penalty: <i class="fa-solid fa-circle-info info-icon">
+                    <span class="tooltip-text">
+                        <span class="tooltip-title">Proximity Penalty</span>
+                        • < 500m to green zone: -25<br>
+                        • < 1km to green zone: -15<br>
+                        • < 2km to green zone: -5<br>
+                        (Deducted from Base Score)
+                    </span>
+                </i></span> 
+                -${p.proximityPenalty}
+              </div>
             </div>
 
             ${interventionsHtml}
