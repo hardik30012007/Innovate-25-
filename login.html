@@ -172,6 +172,8 @@
 
             // Simple mock validation (for hackathon/demo purposes)
             if(user === 'admin' && pass === 'admin123') {
+                // Set auth token
+                sessionStorage.setItem('govAuth', 'true');
                 // Redirect to admin dashboard
                 window.location.href = 'frontend/admin.html';
             } else {

@@ -465,6 +465,64 @@ def update_status(cid):
 
 
 # -----------------------------
+# Report New Zone (User)
+# -----------------------------
+@app.route("/report-zone", methods=["POST"])
+def report_zone():
+    global CORRIDORS_GEOJSON
+    from flask import request
+    import uuid
+    import time
+    from shapely.geometry import shape
+
+    data = request.json
+    name = data.get("name")
+    desc = data.get("description")
+    contact = data.get("contact")
+    geometry = data.get("geometry")
+
+    if not geometry or not name:
+        return jsonify({"status": "error", "message": "Missing required fields"}), 400
+
+    new_id = f"user_zone_{uuid.uuid4().hex[:8]}"
+
+    try:
+        poly = shape(geometry)
+        area_sqm = poly.area 
+    except:
+        area_sqm = 0
+
+    new_feature = {
+        "id": new_id,
+        "name": name, 
+        "description": desc,
+        "contact": contact,
+        "status": "pending",
+        "upvotes": 0,
+        "score": 0,
+        "priority_level": "Pending",
+        "area_sqm": 0,
+        "connected_anchors": 0,
+        "geometry": geometry,
+        "timestamp": time.time(),
+        "reported_by_user": True
+    }
+
+    corridors = load_corridors()
+    corridors.append(new_feature)
+    save_corridors(corridors)
+
+    if CORRIDORS_GEOJSON:
+        CORRIDORS_GEOJSON['features'].append({
+            "type": "Feature",
+            "geometry": geometry,
+            "properties": new_feature
+        })
+
+    return jsonify({"status": "success", "id": new_id, "message": "Zone reported successfully"})
+
+
+# -----------------------------
 # AI Agent Endpoint
 # -----------------------------
 @app.route("/ask_agent", methods=["POST"])

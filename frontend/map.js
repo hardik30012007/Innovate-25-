@@ -263,12 +263,15 @@ Promise.all([
               <div>
                 <span>Score: <i class="fa-solid fa-circle-info info-icon">
                     <span class="tooltip-text">
-                        <span class="tooltip-title">Score Calculation</span>
-                        • Area Size: up to 40pts<br>
-                        • Connectivity: up to 35pts<br>
-                        • Landmarks: up to 25pts<br>
-                        • Community Bonus: up to 20pts<br>
-                        (Max Total: 100)
+                        <span class="tooltip-title">AI Site Suitability Matrix</span>
+                        <div style="margin-top:6px; line-height:1.6">
+                            <div><b style="color:#4caf50">Spatial Viability:</b> Max 40pts</div>
+                            <div><b style="color:#4caf50">Eco-Connectivity:</b> Max 35pts</div>
+                            <div><b style="color:#4caf50">Urban Integration:</b> Max 25pts</div>
+                            <div style="margin-top:4px; border-top:1px solid #555; padding-top:4px">
+                                <b style="color:#ffeb3b">Social Impact Bonus:</b> +20pts
+                            </div>
+                        </div>
                     </span>
                 </i></span> 
                 <strong>${p.score}</strong>
@@ -377,3 +380,158 @@ window.handleUpvote = function (zoneId, btnElement) {
     });
 };
 
+
+
+// ==========================================
+// 5. User Zone Reporting (Polygon Drawing)
+// ==========================================
+let drawingMode = false;
+let drawPoints = [];
+let drawLinesLayer = null;
+let drawMarkersLayer = L.layerGroup().addTo(map);
+
+const btnReport = document.getElementById('btn-report-zone');
+if (btnReport) {
+  btnReport.onclick = toggleDrawingMode;
+}
+
+function toggleDrawingMode() {
+  drawingMode = !drawingMode;
+  const btn = document.getElementById('btn-report-zone');
+
+  if (drawingMode) {
+    // Enable
+    btn.classList.add('active-tool');
+    btn.innerHTML = '<i class="fa-solid fa-times"></i>'; // Change to cancel icon
+    map.getContainer().style.cursor = 'crosshair';
+
+    // Instructions
+    L.popup()
+      .setLatLng(map.getCenter())
+      .setContent('<div style="text-align:center"><b>Click on the map</b> to add points.<br>Click the <b>first point</b> again to finish.<br>Click Cancel button to stop.</div>')
+      .openOn(map);
+
+    map.on('click', onMapClick);
+  } else {
+    // Disable / Reset
+    resetDrawing();
+  }
+}
+
+function resetDrawing() {
+  drawingMode = false;
+  drawPoints = [];
+  if (drawLinesLayer) map.removeLayer(drawLinesLayer);
+  drawLinesLayer = null;
+  drawMarkersLayer.clearLayers();
+
+  map.off('click', onMapClick);
+  map.getContainer().style.cursor = '';
+
+  const btn = document.getElementById('btn-report-zone');
+  if (btn) {
+    btn.classList.remove('active-tool');
+    btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+  }
+}
+
+function onMapClick(e) {
+  const latlng = e.latlng;
+
+  // Add point
+  drawPoints.push([latlng.lat, latlng.lng]); // Leaflet format [lat, lng]
+
+  // Add marker at point
+  const marker = L.circleMarker(latlng, {
+    color: '#1b5e20',
+    fillColor: '#fff',
+    fillOpacity: 1,
+    radius: 4
+  }).addTo(drawMarkersLayer);
+
+  // Check for closing loop (if > 2 points and clicking near start)
+  // Actually, simpler: Make the first marker clickable to close
+  if (drawPoints.length === 1) {
+    marker.setStyle({ color: 'red', radius: 6 });
+    marker.on('click', (e) => {
+      L.DomEvent.stopPropagation(e); // Prevent map click
+      finishDrawing();
+    });
+    marker.bindTooltip("Click here to close shape", { permanent: true, direction: 'top' }).openTooltip();
+  }
+
+  // Update Polyline
+  if (drawLinesLayer) map.removeLayer(drawLinesLayer);
+  drawLinesLayer = L.polyline(drawPoints, { color: '#1b5e20', dashArray: '5, 5' }).addTo(map);
+}
+
+function finishDrawing() {
+  if (drawPoints.length < 3) {
+    alert("Please select at least 3 points to define an area.");
+    return;
+  }
+
+  // Open Modal
+  document.getElementById('report-modal').style.display = 'flex';
+}
+
+// Modal Logic
+window.closeReportModal = function () {
+  document.getElementById('report-modal').style.display = 'none';
+};
+
+document.getElementById('report-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById('report-name').value;
+  const contact = document.getElementById('report-contact').value;
+  const desc = document.getElementById('report-desc').value;
+
+  // Convert Leaflet [lat, lng] to GeoJSON [lng, lat]
+  // Also insure loop is closed
+  const coords = drawPoints.map(p => [p[1], p[0]]);
+  coords.push(coords[0]); // Close loop
+
+  const geometry = {
+    type: "Polygon",
+    coordinates: [coords]
+  };
+
+  const payload = {
+    name: name,
+    contact: contact,
+    description: desc,
+    geometry: geometry
+  };
+
+  // Show loading
+  const btnSubmit = e.target.querySelector('.btn-submit');
+  const originalText = btnSubmit.innerText;
+  btnSubmit.innerText = "Submitting...";
+  btnSubmit.disabled = true;
+
+  fetch('http://127.0.0.1:5001/report-zone', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'success') {
+        alert("Report submitted successfully! It will appear as 'Pending' in the dashboard.");
+        window.closeReportModal();
+        resetDrawing();
+        e.target.reset(); // Clear form
+      } else {
+        alert("Error: " + data.message);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Failed to submit report. Check console.");
+    })
+    .finally(() => {
+      btnSubmit.innerText = originalText;
+      btnSubmit.disabled = false;
+    });
+});
