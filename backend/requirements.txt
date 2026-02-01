@@ -3,3 +3,5 @@ flask-cors
 geopandas
 shapely
 geopy
+google-generativeai
+python-dotenv

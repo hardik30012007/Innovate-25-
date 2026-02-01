@@ -1,10 +1,15 @@
 import os
 import google.generativeai as genai
 import json
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure Gemini
-# NOTE: In production, use os.environ.get("GEMINI_API_KEY")
-GEMINI_API_KEY = "AIzaSyCCMD3shnUEL1BF0P8jGm84j7n8VyjpPQA"
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    raise ValueError("GEMINI_API_KEY not found in environment variables. Please check your .env file.")
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Generation Config
