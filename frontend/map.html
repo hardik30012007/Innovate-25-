@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delhi Green Corridor Planner | Citizen View</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="agent_ui.css">
+
+  <!-- Theme Manager -->
+  <script src="../theme.js"></script>
+</head>
+
+<body class="boxed-layout">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-container">
+      <div class="logo-area">
+        <span style="font-weight: 800; font-size: 1.5rem; color: #1b5e20;">UrbanGreen Delhi</span>
+        <span style="border-left: 1px solid #ccc; margin-left:12px; padding-left:12px; color: #666; font-size: 0.9rem; font-weight: 500;">Citizen Map View</span>
+      </div>
+      <a href="../index.html" class="btn-home" style="background: transparent; border: 1px solid #ddd; color: #555;">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+      </a>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="map-wrapper">
+      <!-- Map Container -->
+      <div id="map"></div>
+
+      <!-- Layer Controls (Top Left) -->
+      <div class="layer-controls">
+        <div class="control-item">
+          <input type="checkbox" id="check-green" checked>
+          <label for="check-green">Existing Green Zones</label>
+        </div>
+        <div class="control-item">
+          <input type="checkbox" id="check-ai" checked>
+          <label for="check-ai">AI Recommendations</label>
+        </div>
+        <div class="control-item">
+          <input type="checkbox" id="check-anchors" checked>
+          <label for="check-anchors">Green Anchors</label>
+        </div>
+        <div class="control-item">
+          <input type="checkbox" id="check-wip" checked>
+          <label for="check-wip">Work In Progress</label>
+        </div>
+      </div>
+
+      <!-- Top Right Group (Priority Alert + Legend) -->
+      <div class="top-right-group">
+        <!-- Priority AI Alert (Hidden by default) -->
+        <div id="priority-alert" class="map-overlay-alert" style="display: none;">
+          <div class="alert-content">
+            <i class="fa-solid fa-bolt-lightning"></i>
+            <span id="priority-text">Priority AI Suggestion Ready</span>
+            <button id="btn-view-priority" class="btn-mini-action">View Zone</button>
+          </div>
+        </div>
+
+        <!-- Color Legend -->
+        <div class="color-legend">
+          <div class="legend-entry">
+            <span class="color-swatch" style="background: #00c853;"></span>
+            <span class="label">Existing Zones</span>
+          </div>
+          <div class="legend-entry">
+            <span class="color-swatch" style="background: #ffea00; border: 1px dashed #ff9100;"></span>
+            <span class="label">AI Proposals</span>
+          </div>
+          <div class="legend-entry">
+            <span class="color-swatch" style="background: #2e7d32;"></span>
+            <span class="label">Green Anchors</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map Controls (Bottom Left) -->
+      <div class="map-controls-group">
+        <button id="btn-location" class="map-control-btn" title="My Location">
+          <i class="fa-solid fa-location-crosshairs"></i>
+        </button>
+        <button id="btn-zoom-in" class="map-control-btn" title="Zoom In">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+        <button id="btn-zoom-out" class="map-control-btn" title="Zoom Out">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+        <button id="fullscreen-toggle" class="map-control-btn" title="Toggle Full Screen">
+            <i class="fa-solid fa-expand"></i>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Map Logic -->
+  <script src="map.js"></script>
+  <script src="agent_ui.js"></script>
+  <script src="script.js"></script>
+
+</body>
+
+</html>

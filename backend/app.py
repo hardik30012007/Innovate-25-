@@ -362,7 +362,29 @@ def get_corridors():
     if CORRIDORS_GEOJSON is None:
         # Auto-generate if not in cache
         generate()
-        
+
+    # Inject Real-World Names
+    delhi_zones = [
+        "Dwarka Sector 10 Park", "Rohini Japanese Park", "Sanjay Van South", "Hauz Khas Lake Ext", 
+        "Lodhi Garden Zone", "Okhla Bird Sanctuary", "Yamuna Biodiversity Park", "Nehru Park Chanakyapuri", 
+        "Deer Park Safdarjung", "Buddha Jayanti Park", "Indraprastha Park", "Millennium Park", 
+        "Swarn Jayanti Park", "District Park Janakpuri", "Talkatora Garden", "Mughal Gardens", 
+        "Sunder Nursery", "National Rose Garden", "Garden of Five Senses", "Mehrauli Archaeological Park"
+    ]
+    
+    if CORRIDORS_GEOJSON and 'features' in CORRIDORS_GEOJSON:
+        for f in CORRIDORS_GEOJSON['features']:
+            try:
+                # Extract index from "zone_X"
+                z_id = f['properties']['id']
+                if "zone_" in z_id:
+                    idx = int(z_id.split('_')[1])
+                    f['properties']['name'] = delhi_zones[idx % len(delhi_zones)]
+                else:
+                    f['properties']['name'] = z_id
+            except:
+                f['properties']['name'] = f['properties']['id']
+
     return jsonify(CORRIDORS_GEOJSON)
 
 

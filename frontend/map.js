@@ -15,7 +15,57 @@ const map = L.map("map", {
 });
 
 // window map for external access
+// window map for external access
 window.map = map;
+
+// -----------------------------
+// Custom Map Controls Logic
+// -----------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  // Zoom In
+  const btnZoomIn = document.getElementById('btn-zoom-in');
+  if (btnZoomIn) btnZoomIn.onclick = () => map.zoomIn();
+
+  // Zoom Out
+  const btnZoomOut = document.getElementById('btn-zoom-out');
+  if (btnZoomOut) btnZoomOut.onclick = () => map.zoomOut();
+
+  // My Location
+  const btnLocate = document.getElementById('btn-location');
+  if (btnLocate) {
+    btnLocate.onclick = () => {
+      btnLocate.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>'; // Loading state
+      map.locate({ setView: true, maxZoom: 15 });
+    };
+
+    // Location Found Event
+    map.on('locationfound', (e) => {
+      btnLocate.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>'; // Reset icon
+
+      // Show marker
+      L.circle(e.latlng, {
+        color: '#1b5e20',
+        fillColor: '#4caf50',
+        fillOpacity: 0.5,
+        radius: e.accuracy / 2
+      }).addTo(map);
+
+      L.popup()
+        .setLatLng(e.latlng)
+        .setContent("You are here")
+        .openOn(map);
+    });
+
+    // Location Error Event
+    map.on('locationerror', (e) => {
+      btnLocate.innerHTML = '<i class="fa-solid fa-location-slash"></i>'; // Error icon
+      alert("Location access denied or unavailable.");
+      setTimeout(() => {
+        btnLocate.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>'; // Reset after delay
+      }, 3000);
+    });
+  }
+});
 
 // ---- Panes (layer priority control) ----
 map.createPane("greenZonesPane");
@@ -103,7 +153,7 @@ Promise.all([
           }
         }
 
-        layer.bindTooltip(`<b>Zone ${zoneNum}</b> <span style="color:#4caf50">●</span><br>Status: Existing/Completed`, { sticky: true });
+        layer.bindTooltip(`<b>${feature.properties.name || `Zone ${zoneNum}`}</b> <span style="color:#4caf50">●</span><br>Status: Existing/Completed`, { sticky: true });
       }
     }).addTo(map);
     window.overlayLayers["Existing Green Zones"] = existingZonesLayer;
@@ -123,14 +173,14 @@ Promise.all([
       },
       onEachFeature: (feature, layer) => {
         const zoneNum = parseInt(feature.properties.id.split('_')[1]) + 1;
-        layer.bindTooltip(`<b>Zone ${zoneNum}</b> <span style="color:#00e676">●</span><br>Status: Work In Progress`, { sticky: true });
+        layer.bindTooltip(`<b>${feature.properties.name || `Zone ${zoneNum}`}</b> <span style="color:#00e676">●</span><br>Status: Work In Progress`, { sticky: true });
 
         // Add Pulse Animation CSS Class if possible (requires advanced Leaflet or CSS trick)
         // For now just standard popup
         layer.bindPopup(`
             <div class="popup-content">
                 <h3 style="color:#00e676"><i class="fa-solid fa-hammer"></i> Work In Progress</h3>
-                <p><strong>Zone ${zoneNum}</strong> is currently being developed.</p>
+                <p><strong>${feature.properties.name || `Zone ${zoneNum}`}</strong> is currently being developed.</p>
                 <div class="popup-stats">
                     <div><span>Area:</span> <strong>${feature.properties.area_sqkm} sq km</strong></div>
                 </div>
@@ -184,7 +234,7 @@ Promise.all([
         let interventionsHtml = "";
         if (p.recommendations && p.recommendations.length > 0) {
           interventionsHtml += `<div class="popup-interventions">
-            <h4><i class="fa-solid fa-wand-magic-sparkles"></i> AI Interventions</h4>
+            <h4>Recommended Interventions</h4>
             <ul>`;
           p.recommendations.forEach(rec => {
             interventionsHtml += `
@@ -205,7 +255,7 @@ Promise.all([
         const popupContent = `
           <div class="popup-content">
             <h3 class="popup-title">
-              <span><i class="fa-solid fa-seedling"></i> Zone ${zoneNum}</span>
+              <span>${p.name || `Zone ${zoneNum}`}</span>
               <span class="priority-badge" style="background:${priorityColor}">${p.priority_level} Priority</span>
             </h3>
             
@@ -251,11 +301,11 @@ Promise.all([
 
         layer.bindPopup(popupContent, {
           className: 'zone-popup',
-          minWidth: 200
+          minWidth: 350
         });
 
         // Also keep a simpler tooltip for quick hover
-        layer.bindTooltip(`<b>Zone ${zoneNum}</b><br>Score: ${p.adjustedScore}`, {
+        layer.bindTooltip(`<b>${p.name || `Zone ${zoneNum}`}</b><br>Score: ${p.adjustedScore}`, {
           sticky: true,
           direction: 'top',
           className: 'zone-tooltip'
@@ -281,7 +331,7 @@ Promise.all([
     if (priorityLayer) {
       const p = priorityLayer.feature.properties;
       window.priorityZone = {
-        name: `Zone ${parseInt(p.id.split('_')[1]) + 1} (Score: ${p.adjustedScore})`,
+        name: `${p.name || `Zone ${parseInt(p.id.split('_')[1]) + 1}`} (Score: ${p.adjustedScore})`,
         bounds: priorityLayer.getBounds()
       };
       window.dispatchEvent(new CustomEvent('priorityReady'));

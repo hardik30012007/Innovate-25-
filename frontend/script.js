@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const checkGreen = document.getElementById('check-green');
   const checkAI = document.getElementById('check-ai');
   const checkAnchors = document.getElementById('check-anchors');
+  const checkWip = document.getElementById('check-wip');
 
   function setupToggle(el, layerName) {
     if (!el) return;
@@ -41,22 +42,27 @@ document.addEventListener('DOMContentLoaded', () => {
   setupToggle(checkGreen, "Existing Green Zones");
   setupToggle(checkAI, "AI Suggested Corridors");
   setupToggle(checkAnchors, "Green Anchors");
+  setupToggle(checkWip, "Work In Progress");
 
   // 3. Priority Alert Logic
-  window.addEventListener('priorityReady', () => {
+  // 3. Priority Alert Logic
+  function showPriorityAlert() {
     const alert = document.getElementById('priority-alert');
     const text = document.getElementById('priority-text');
     const viewBtn = document.getElementById('btn-view-priority');
 
     if (alert && window.priorityZone) {
       text.innerText = `Priority AI Suggestion: ${window.priorityZone.name}`;
-      alert.style.display = 'block';
+      // Use flex to maintain the icon/text/button layout defined in CSS
+      alert.style.display = 'flex';
 
       viewBtn.onclick = () => {
-        window.map.flyToBounds(window.priorityZone.bounds, {
-          padding: [50, 50],
-          duration: 1.5
-        });
+        if (window.map) {
+          window.map.flyToBounds(window.priorityZone.bounds, {
+            padding: [50, 50],
+            duration: 1.5
+          });
+        }
 
         // Ensure AI layer is visible
         const checkAI = document.getElementById('check-ai');
@@ -65,5 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       };
     }
-  });
+  }
+
+  // Listen for event
+  window.addEventListener('priorityReady', showPriorityAlert);
+
+  // Check if already ready (race condition fix)
+  if (window.priorityZone) {
+    showPriorityAlert();
+  }
 });

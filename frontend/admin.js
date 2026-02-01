@@ -89,7 +89,7 @@ async function fetchData() {
 
             return {
                 id: p.id,
-                displayText: `Zone ${zoneNum}`,
+                displayText: p.name || `Zone ${zoneNum}`,
                 area: p.nearby_landmarks.length > 0 ? p.nearby_landmarks.join(", ") : "Green Belt Area",
                 length_km: p.area_sqkm.toFixed(2),
                 ai_base_score: p.score,
