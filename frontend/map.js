@@ -95,8 +95,8 @@ window.overlayLayers = {};
 // 2 & 3. Data Integration (Anchors & Corridors)
 // ===============================
 Promise.all([
-  fetch("http://127.0.0.1:5001/green-zones").then(res => res.json()),
-  fetch("http://127.0.0.1:5001/corridors").then(res => res.json())
+  fetch("https://innovate-25-1.onrender.com/green-zones").then(res => res.json()),
+  fetch("https://innovate-25-1.onrender.com/corridors").then(res => res.json())
 ]).then(([anchorsData, corridorsData]) => {
   if (!anchorsData?.features || !corridorsData?.features) return;
 
@@ -355,7 +355,7 @@ window.handleUpvote = function (zoneId, btnElement) {
   btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Voting...';
   btnElement.disabled = true;
 
-  fetch(`http://127.0.0.1:5001/upvote/${zoneId}`, { method: 'POST' })
+  fetch(`https://innovate-25-1.onrender.com/upvote/${zoneId}`, { method: 'POST' })
     .then(res => res.json())
     .then(data => {
       if (data.status === 'upvoted') {
@@ -515,7 +515,7 @@ document.getElementById('report-form').addEventListener('submit', function (e) {
   btnSubmit.innerText = "Submitting...";
   btnSubmit.disabled = true;
 
-  fetch('http://127.0.0.1:5001/report-zone', {
+  fetch('https://innovate-25-1.onrender.com/report-zone', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)

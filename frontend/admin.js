@@ -40,8 +40,8 @@ async function init() {
 async function fetchData() {
     try {
         const [anchorsRes, corridorsRes] = await Promise.all([
-            fetch("http://127.0.0.1:5001/green-zones").then(res => res.json()),
-            fetch("http://127.0.0.1:5001/corridors").then(res => res.json())
+            fetch("https://innovate-25-1.onrender.com/green-zones").then(res => res.json()),
+            fetch("https://innovate-25-1.onrender.com/corridors").then(res => res.json())
         ]);
 
         if (!anchorsRes?.features || !corridorsRes?.features) throw new Error("Invalid data format");
@@ -315,7 +315,7 @@ async function updateStatus(id, newStatus) {
     }
 
     try {
-        const res = await fetch(`http://127.0.0.1:5001/update_status/${id}`, {
+        const res = await fetch(`https://innovate-25-1.onrender.com/update_status/${id}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: newStatus })
