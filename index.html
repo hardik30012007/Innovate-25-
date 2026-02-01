@@ -3,53 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UrbanGreen Delhi</title>
+    <title>UrbanGreen Delhi | Green Corridor Planning</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Icons (Minimal Use) -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- CSS -->
+    <link rel="stylesheet" href="frontend/design-system.css">
     <link rel="stylesheet" href="landing.css">
-    <!-- Ensure global theme doesn't override layout, but might be needed for some vars if referenced -->
 </head>
 <body>
 
-    <div class="container">
-        <!-- Brand -->
-        <h1 class="brand-name">UrbanGreen Delhi</h1>
-        <p class="tagline">Data-driven planning for sustainable urban corridors.</p>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="gradient-text">UrbanGreen Delhi</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
 
-        <!-- Navigation Cards -->
-        <div class="action-grid">
-            <!-- Citizen View -->
-            <a href="frontend/map.html" class="action-card">
-                <div>
-                    <div class="card-label">Public Access</div>
-                    <div class="card-title">Citizen Map</div>
-                    <div style="font-size: 0.9rem; color: #666;">Explore green zones, view scores, and vote on interventions.</div>
-                </div>
-                <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-            </a>
-
-            <!-- Government Dashboard -->
-            <a href="frontend/admin.html" class="action-card">
-                <div>
-                    <div class="card-label">Administrative</div>
-                    <div class="card-title">Government Dashboard</div>
-                    <div style="font-size: 0.9rem; color: #666;">Review data, approve projects, and monitor progress.</div>
-                </div>
-                <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-            </a>
+    <!-- Hero Section with Video Background -->
+    <section class="hero">
+        <!-- Video Background -->
+        <div class="video-background">
+            <video autoplay muted loop playsinline id="hero-video">
+                <source src="assets/hero-video.mp4" type="video/mp4">
+                <!-- Fallback gradient background if video doesn't load -->
+            </video>
+            <div class="video-overlay"></div>
         </div>
 
-        <!-- Simple Footer -->
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Delhi Green Corridor<br>
+                    Planning & Intelligence
+                </h1>
+                <p class="hero-subtitle">
+                    AI-powered urban planning to identify, connect, and optimize green spaces<br>
+                    for sustainable city development and ecological balance.
+                </p>
+            </div>
 
-    </div>
+            <!-- Action Buttons -->
+            <div class="hero-actions">
+                <a href="frontend/map.html" class="hero-btn btn-primary">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>Explore Live Map</span>
+                </a>
+                <a href="frontend/admin.html" class="hero-btn btn-admin">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <span>Authority Dashboard</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="gradient-text">Intelligent Green Planning</span>
+            </h2>
+            <p class="section-subtitle">
+                Leveraging AI and geospatial data to transform urban landscapes
+            </p>
+
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card" data-animate>
+                    <div class="feature-icon" style="background: var(--gradient-primary);">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3>AI-Powered Analysis</h3>
+                    <p>Advanced algorithms identify optimal green corridor locations based on connectivity, accessibility, and environmental impact.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card" data-animate>
+                    <div class="feature-icon" style="background: var(--gradient-accent);">
+                        <i class="fa-solid fa-map"></i>
+                    </div>
+                    <h3>Interactive Mapping</h3>
+                    <p>Real-time visualization of existing zones, AI recommendations, and community-reported green spaces.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card" data-animate>
+                    <div class="feature-icon" style="background: var(--gradient-success);">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3>Community Engagement</h3>
+                    <p>Citizens can report potential zones, vote on proposals, and track implementation progress.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="gradient-text">How It Works</span>
+            </h2>
+
+            <div class="steps-container">
+                <div class="step" data-animate>
+                    <div class="step-number">01</div>
+                    <h3>Data Collection</h3>
+                    <p>Gather geospatial data on existing green spaces, parks, and potential corridor locations across Delhi.</p>
+                </div>
+
+                <div class="step" data-animate>
+                    <div class="step-number">02</div>
+                    <h3>AI Analysis</h3>
+                    <p>Machine learning algorithms analyze connectivity, accessibility, and environmental factors to identify optimal corridors.</p>
+                </div>
+
+                <div class="step" data-animate>
+                    <div class="step-number">03</div>
+                    <h3>Community Input</h3>
+                    <p>Citizens contribute by reporting new zones, voting on proposals, and providing local insights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Delhi's Green Landscape?</h2>
+                <p>Join thousands of citizens and authorities working together for a greener future.</p>
+                <div class="cta-buttons">
+                    <a href="frontend/map.html" class="hero-btn btn-primary">
+                        <i class="fa-solid fa-rocket"></i>
+                        <span>Get Started</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="nav-brand">
+                        <span class="gradient-text">UrbanGreen Delhi</span>
+                    </div>
+                    <p>Sustainable urban planning through AI and community collaboration.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Platform</h4>
+                        <a href="frontend/map.html">Live Map</a>
+                        <a href="frontend/admin.html">Dashboard</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <a href="#features">Features</a>
+                        <a href="#how-it-works">How It Works</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Contact</h4>
+                        <a href="mailto:info@urbangreen.delhi">Email Us</a>
+                        <a href="#">Support</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 UrbanGreen Delhi. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="frontend/animations.js"></script>
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Animate scroll indicator
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        if (scrollIndicator) {
+            scrollIndicator.addEventListener('click', () => {
+                document.querySelector('.features').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        // Navbar background on scroll
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
 
 </body>
 </html>

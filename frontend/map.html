@@ -32,10 +32,10 @@
   <header class="page-header">
     <div class="header-container">
       <div class="logo-area">
-        <span style="font-weight: 800; font-size: 1.5rem; color: #1b5e20;">UrbanGreen Delhi</span>
-        <span style="border-left: 1px solid #ccc; margin-left:12px; padding-left:12px; color: #666; font-size: 0.9rem; font-weight: 500;">Citizen Map View</span>
+        <span class="gradient-text" style="font-weight: 800; font-size: 1.75rem;">UrbanGreen Delhi</span>
+        <span style="border-left: 1px solid var(--glass-border); margin-left:16px; padding-left:16px; color: var(--text-light-secondary); font-size: 1rem; font-weight: 500;">Citizen Map View</span>
       </div>
-      <a href="../index.html" class="btn-home" style="background: transparent; border: 1px solid #ddd; color: #555;">
+      <a href="../index.html" class="btn-home" style="color: var(--text-light-primary);">
         <i class="fa-solid fa-arrow-left"></i> Back to Home
       </a>
     </div>
@@ -48,21 +48,21 @@
 
       <!-- Layer Controls (Top Left) -->
       <div class="layer-controls">
-        <div class="control-item">
-          <input type="checkbox" id="check-green" checked>
-          <label for="check-green">Existing Green Zones</label>
+        <div class="control-item" style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" id="check-existing" checked style="cursor: pointer; width: 18px; height: 18px;">
+          <label for="check-existing" style="cursor: pointer; color: var(--text-light-primary); font-weight: 500;">Existing Green Zones</label>
         </div>
-        <div class="control-item">
-          <input type="checkbox" id="check-ai" checked>
-          <label for="check-ai">AI Recommendations</label>
+        <div class="control-item" style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" id="check-ai" checked style="cursor: pointer; width: 18px; height: 18px;">
+          <label for="check-ai" style="cursor: pointer; color: var(--text-light-primary); font-weight: 500;">AI Recommendations</label>
         </div>
-        <div class="control-item">
-          <input type="checkbox" id="check-anchors" checked>
-          <label for="check-anchors">Green Anchors</label>
+        <div class="control-item" style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" id="check-anchors" checked style="cursor: pointer; width: 18px; height: 18px;">
+          <label for="check-anchors" style="cursor: pointer; color: var(--text-light-primary); font-weight: 500;">Green Anchors</label>
         </div>
-        <div class="control-item">
-          <input type="checkbox" id="check-wip" checked>
-          <label for="check-wip">Work In Progress</label>
+        <div class="control-item" style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" id="check-wip" checked style="cursor: pointer; width: 18px; height: 18px;">
+          <label for="check-wip" style="cursor: pointer; color: var(--text-light-primary); font-weight: 500;">Work In Progress</label>
         </div>
       </div>
 
@@ -145,6 +145,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <!-- Map Logic -->
+  <script src="animations.js"></script>
   <script src="map.js"></script>
   <script src="agent_ui.js"></script>
   <script src="script.js"></script>

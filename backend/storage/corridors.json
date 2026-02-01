@@ -1442,7 +1442,7 @@
     "area_sqm": 10275210,
     "area_sqkm": 10.28,
     "connected_anchors": 7,
-    "score": 70,
+    "score": 72,
     "priority_level": "Medium",
     "recommendations": [
       {
@@ -1455,7 +1455,7 @@
       }
     ],
     "nearby_landmarks": [],
-    "upvotes": 0,
+    "upvotes": 1,
     "geometry": {
       "type": "Polygon",
       "coordinates": [
@@ -2418,7 +2418,7 @@
     "area_sqm": 1236419,
     "area_sqkm": 1.24,
     "connected_anchors": 2,
-    "score": 50,
+    "score": 52,
     "priority_level": "Low",
     "recommendations": [
       {
@@ -2431,7 +2431,7 @@
       }
     ],
     "nearby_landmarks": [],
-    "upvotes": 0,
+    "upvotes": 1,
     "geometry": {
       "type": "Polygon",
       "coordinates": [
@@ -2502,7 +2502,7 @@
       }
     ],
     "nearby_landmarks": [],
-    "upvotes": 0,
+    "upvotes": 1,
     "geometry": {
       "type": "Polygon",
       "coordinates": [

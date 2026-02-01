@@ -1,21 +1,24 @@
 /*---------------------------
-  GLOBAL STYLES
+  GLOBAL STYLES - PREMIUM ADMIN
 ----------------------------*/
+/* Import Design System */
+@import url('design-system.css');
+
 :root {
-    --primary-green: var(--primary-green, #2E8B57);
-    --primary-accent: var(--accent-green, #4CAF50);
-    --neutral-bg: var(--bg-secondary, #F5F7FA);
-    --sidebar-bg: var(--admin-sidebar-bg, #1E2A23);
-    --text-main: var(--text-primary, #222);
-    --text-muted: var(--text-secondary, #666);
-    --card-bg: var(--bg-primary, #fff);
-    --border-color: var(--border-color, #E0E4E8);
-    --shadow-soft: 0 2px 6px var(--shadow-color, rgba(0, 0, 0, 0.1));
-    --transition-default: all 0.3s ease;
-    --success-color: #27ae60;
-    --pending-color: #f39c12;
-    --danger-color: #c0392b;
-    --font-main: 'Inter', sans-serif;
+    --primary-green: #10b981;
+    --primary-accent: #10b981;
+    --neutral-bg: var(--bg-light-secondary);
+    --sidebar-bg: #1e293b;
+    --text-main: var(--text-light-primary);
+    --text-muted: var(--text-light-muted);
+    --card-bg: var(--bg-light-primary);
+    --border-color: var(--glass-border);
+    --shadow-soft: var(--shadow-lg);
+    --transition-default: all var(--transition-base);
+    --success-color: #10b981;
+    --pending-color: #f59e0b;
+    --danger-color: #ef4444;
+    --font-main: var(--font-sans);
 }
 
 * {
@@ -26,10 +29,24 @@
 }
 
 body {
-    background-color: var(--neutral-bg);
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f8fafc 100%);
     color: var(--text-main);
     display: flex;
     min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+    pointer-events: none;
 }
 
 /*---------------------------
