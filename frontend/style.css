@@ -348,11 +348,11 @@ body.boxed-layout::before {
 .map-overlay-alert {
   position: relative;
   pointer-events: auto;
-  background: var(--glass-bg-dark);
+  background: var(--glass-bg);
   backdrop-filter: var(--backdrop-blur-strong);
   -webkit-backdrop-filter: var(--backdrop-blur-strong);
   border-left: 4px solid var(--color-emerald-500);
-  color: var(--text-dark-primary);
+  color: var(--text-main);
   padding: 16px 24px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl), var(--shadow-glow);
@@ -419,7 +419,8 @@ body.boxed-layout::before {
   font-family: var(--font-sans);
   border: 1px solid var(--glass-border);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  z-index: 5000;
 }
 
 .leaflet-popup-content-wrapper::before {
@@ -434,7 +435,9 @@ body.boxed-layout::before {
 
 .leaflet-popup-content {
   margin: 16px 20px;
-  min-width: 330px !important;
+  min-width: 380px !important;
+  max-height: 450px;
+  overflow-y: auto;
   /* Ensure enough width for Upvote button and Title */
 }
 
@@ -444,9 +447,9 @@ body.boxed-layout::before {
 
 /* Reduced Font Sizes for fit */
 .popup-title {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: var(--font-bold);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   color: var(--text-main);
 }
 
@@ -461,7 +464,7 @@ body.boxed-layout::before {
 .popup-info-row {
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .popup-label {
@@ -490,31 +493,55 @@ body.boxed-layout::before {
 .popup-stats {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 6px;
-  font-size: 0.85rem;
-  /* Reduced from 0.9rem */
+  gap: 5px;
+  font-size: 0.75rem;
   color: var(--text-muted);
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .popup-interventions h4 {
-  margin: 0 0 8px 0;
-  font-size: 0.8rem;
-  /* Reduced from 0.85rem */
+  margin: 0 0 6px 0;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-muted);
 }
 
+.popup-interventions ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  list-style: disc;
+}
+
+.popup-interventions li {
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+.popup-interventions li strong {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+  color: var(--text-main);
+}
+
+.popup-interventions li p {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+
 .btn-upvote {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   border: none;
   background: var(--gradient-primary);
   color: white;
   border-radius: var(--radius-lg);
   font-weight: var(--font-semibold);
-  font-size: var(--text-base);
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all var(--transition-base);
   display: flex;
@@ -533,6 +560,20 @@ body.boxed-layout::before {
   background: var(--gradient-primary-hover);
   opacity: 0;
   transition: opacity var(--transition-base);
+  z-index: 0;
+}
+
+/* Ensure ALL button content stays above ::before */
+.btn-upvote>* {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-upvote i,
+.btn-upvote span {
+  position: relative;
+  z-index: 1;
+  color: white;
 }
 
 .btn-upvote:hover {
@@ -580,24 +621,40 @@ body.boxed-layout::before {
 
 .info-icon .tooltip-text {
   visibility: hidden;
-  width: 200px;
+  width: 280px;
+  max-width: 320px;
   background-color: #333;
   color: #fff;
   text-align: left;
-  border-radius: 4px;
-  padding: 8px 12px;
+  border-radius: 8px;
+  padding: 10px 14px;
   position: absolute;
-  z-index: 10000;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
+  z-index: 15000;
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, visibility 0.3s;
   font-size: 0.75rem;
   font-weight: 400;
   line-height: 1.4;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
   pointer-events: none;
+  white-space: normal;
+}
+
+/* Tooltip arrow pointing left */
+.info-icon .tooltip-text::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 6px 6px 0;
+  border-color: transparent #333 transparent transparent;
 }
 
 .info-icon:hover .tooltip-text {

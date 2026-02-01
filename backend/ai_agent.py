@@ -43,23 +43,43 @@ AVAILABLE ACTIONS:
 - "SHOW_PRIORITY": Pans to the highest priority/score zone. Params: {}
 - "EXPLAIN_ZONE": detailed info about a zone. Params: { "id": "zone_X" }
 
+ZONE MAPPING (Landmarks/Names to IDs):
+- zone_0: Dwarka Sector 10 Park
+- zone_1: Rohini Japanese Park
+- zone_2: Sanjay Van South
+- zone_3: Hauz Khas Lake Ext
+- zone_4: Lodhi Garden Zone
+- zone_5: Okhla Bird Sanctuary
+- zone_6: Yamuna Biodiversity Park
+- zone_7: Nehru Park Chanakyapuri
+- zone_8: Deer Park Safdarjung
+- zone_9: Buddha Jayanti Park
+- zone_10: Indraprastha Park
+- zone_11: Millennium Park
+- zone_12: Swarn Jayanti Park
+- zone_13: District Park Janakpuri
+- zone_14: Talkatora Garden
+- zone_15: Mughal Gardens
+- zone_16: Sunder Nursery
+- zone_17: National Rose Garden
+- zone_18: Garden of Five Senses
+- zone_19: Mehrauli Archaeological Park
+
 CONTEXT:
-- There are zones numbered zone_0 to zone_21.
+- There are specific zones named above.
+- If a user mentions a place like "Okhla Bird Sanctuary", use its ID (zone_5).
 - "Work Done" means Completed.
 - "High Priority" usually means high score.
 
 EXAMPLES:
+User: "Show me Okhla Bird Sanctuary"
+Response: { "reply": "Taking you to Okhla Bird Sanctuary (Zone 5).", "action": "PAN_TO_ZONE", "params": { "id": "zone_5" } }
+
 User: "Show me zone 10"
-Response: { "reply": "Taking you to Zone 10.", "action": "PAN_TO_ZONE", "params": { "id": "zone_10" } }
+Response: { "reply": "Taking you to Zone 10 (Indraprastha Park).", "action": "PAN_TO_ZONE", "params": { "id": "zone_10" } }
 
-User: "Upvote it" (if context implies zone 10)
-Response: { "reply": "Upvoted Zone 10!", "action": "UPVOTE_ZONE", "params": { "id": "zone_10" } }
-
-User: "Where is the best place to plant trees?"
-Response: { "reply": "Based on the analysis, I'm taking you to the highest priority zone recommended for interventions.", "action": "SHOW_PRIORITY", "params": {} }
-
-User: "Hello"
-Response: { "reply": "Hi! I can help you explore green corridors. Try asking me to 'Show Zone 5' or 'Find the best zone'.", "action": null, "params": {} }
+User: "Upvote Garden of Five Senses"
+Response: { "reply": "Certainly! Upvoting Garden of Five Senses (Zone 18).", "action": "UPVOTE_ZONE", "params": { "id": "zone_18" } }
 """
 
 def ask_gemini_agent(user_text, context_text=""):

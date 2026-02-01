@@ -296,15 +296,20 @@ Promise.all([
             
             <button class="btn-upvote" onclick="window.handleUpvote('${p.id}', this)">
               <i class="fa-solid fa-thumbs-up"></i> 
-              Upvote 
+              <span>Upvote</span>
               <span id="vote-count-${p.id}" class="vote-badge">${p.upvotes || 0}</span>
             </button>
           </div>
         `;
 
+
         layer.bindPopup(popupContent, {
           className: 'zone-popup',
-          minWidth: 350
+          minWidth: 400,
+          maxWidth: 450,
+          maxHeight: 500,
+          autoPan: true,
+          autoPanPadding: [50, 50]
         });
 
         // Also keep a simpler tooltip for quick hover
@@ -359,7 +364,7 @@ window.handleUpvote = function (zoneId, btnElement) {
         if (countSpan) countSpan.innerText = data.count;
 
         // Update button state
-        btnElement.innerHTML = `<i class="fa-solid fa-check"></i> Voted <span class="vote-badge">${data.count}</span>`;
+        btnElement.innerHTML = `<i class="fa-solid fa-check"></i> <span>Voted</span> <span class="vote-badge">${data.count}</span>`;
         btnElement.classList.add('voted');
 
         // Update underlying data so it persists if popup reopens

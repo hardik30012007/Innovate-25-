@@ -28,7 +28,6 @@
             <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#how-it-works">How It Works</a>
-                <a href="#contact">Contact</a>
             </div>
         </div>
     </nav>
@@ -38,7 +37,7 @@
         <!-- Video Background -->
         <div class="video-background">
             <video autoplay muted loop playsinline id="hero-video">
-                <source src="https://www.tomorrow.io/wp-content/uploads/2025/10/mobile-stars.mp4" type="video/mp4">
+                <source src="https://www.pexels.com/download/video/13294237/">
                 <!-- Fallback gradient background if video doesn't load -->
             </video>
             <div class="video-overlay"></div>
@@ -163,39 +162,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer" id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="nav-brand">
-                        <span class="gradient-text">UrbanGreen Delhi</span>
-                    </div>
-                    <p>Sustainable urban planning through AI and community collaboration.</p>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Platform</h4>
-                        <a href="frontend/map.html">Live Map</a>
-                        <a href="frontend/admin.html">Dashboard</a>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Resources</h4>
-                        <a href="#features">Features</a>
-                        <a href="#how-it-works">How It Works</a>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Contact</h4>
-                        <a href="mailto:info@urbangreen.delhi">Email Us</a>
-                        <a href="#">Support</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 UrbanGreen Delhi. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
+    
     <!-- Scripts -->
     <script src="frontend/animations.js"></script>
     <script>
@@ -226,6 +193,24 @@
             } else {
                 navbar.classList.remove('scrolled');
             }
+        });
+
+        // Cursor spotlight effect for feature cards
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                
+                card.style.setProperty('--mouse-x', `${x}%`);
+                card.style.setProperty('--mouse-y', `${y}%`);
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.setProperty('--mouse-x', '50%');
+                card.style.setProperty('--mouse-y', '50%');
+            });
         });
     </script>
 

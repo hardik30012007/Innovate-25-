@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 2. Setup Layer Toggles
-  const checkGreen = document.getElementById('check-green');
+  const checkExisting = document.getElementById('check-existing');
   const checkAI = document.getElementById('check-ai');
   const checkAnchors = document.getElementById('check-anchors');
   const checkWip = document.getElementById('check-wip');
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  setupToggle(checkGreen, "Existing Green Zones");
+  setupToggle(checkExisting, "Existing Green Zones");
   setupToggle(checkAI, "AI Suggested Corridors");
   setupToggle(checkAnchors, "Green Anchors");
   setupToggle(checkWip, "Work In Progress");
